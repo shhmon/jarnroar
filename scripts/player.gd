@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+enum DAMAGE_TYPE { PHYS, MAGIC }
+
 const SPEED = 5
 #const JUMP_VELOCITY = 4
 const TURN_SPEED = 2
@@ -173,4 +175,4 @@ func _on_area_3d_body_entered(body):
 		var is_crit = rng.randf() <= crit_chance
 		var multiplier = 2 if is_crit else 1
 		var direction = -(transform.origin - body.transform.origin).normalized()
-		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30)
+		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, DAMAGE_TYPE.PHYS)

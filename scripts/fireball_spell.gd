@@ -1,5 +1,7 @@
 extends Area3D
 
+enum DAMAGE_TYPE { PHYS, MAGIC }
+
 signal exploded
 
 var rng = RandomNumberGenerator.new()
@@ -13,7 +15,7 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	if body.has_method("take_damage"):
-		body.take_damage(rng.randi_range(20, 25), false, Vector3.ZERO, 0)
+		body.take_damage(rng.randi_range(20, 25), true, Vector3.ZERO, 0, DAMAGE_TYPE.MAGIC)
 		
 	emit_signal("exploded", transform.origin)
 	queue_free()

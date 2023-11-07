@@ -1,9 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://c7hlib8an0wcv"]
+[gd_scene load_steps=13 format=3 uid="uid://bu5poujhxxnu8"]
 
-[ext_resource type="Shader" uid="uid://cxba14bb5hdl5" path="res://shaders/fire.tres" id="1_hxkfk"]
-[ext_resource type="Texture2D" uid="uid://b4q468agxhqps" path="res://assets/Voronoi01.png" id="2_y1yym"]
-[ext_resource type="Texture2D" uid="uid://j7vgx8g0vcrs" path="res://assets/Flame02.png" id="3_7r4q1"]
-[ext_resource type="Texture2D" uid="uid://ddfbj36kaq2ic" path="res://assets/Flame01.png" id="4_3qe8d"]
+[ext_resource type="Shader" path="res://shaders/fire.tres" id="1_hxkfk"]
+[ext_resource type="Texture2D" path="res://assets/Voronoi01.png" id="2_y1yym"]
+[ext_resource type="Texture2D" path="res://assets/Flame02.png" id="3_7r4q1"]
+[ext_resource type="Texture2D" path="res://assets/Flame01.png" id="4_3qe8d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cns4u"]
 render_priority = 0
