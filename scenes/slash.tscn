@@ -1,0 +1,97 @@
+[gd_scene load_steps=10 format=3 uid="uid://cstswx5v46qty"]
+
+[ext_resource type="Shader" path="res://shaders/slash.gdshader" id="1_8wri1"]
+[ext_resource type="Texture2D" uid="uid://c2r0kykuvpeh3" path="res://assets/slash (27).png" id="2_t57rt"]
+[ext_resource type="Texture2D" uid="uid://dk0sfhj27ex3i" path="res://assets/slash (26).png" id="3_80fi1"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tqa0e"]
+direction = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+spread = 0.0
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xsm7f"]
+render_priority = 0
+shader = ExtResource("1_8wri1")
+shader_parameter/alpha = 1.0
+shader_parameter/rotation = 1.126
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/color = ExtResource("2_t57rt")
+shader_parameter/mask = ExtResource("3_80fi1")
+
+[sub_resource type="QuadMesh" id="QuadMesh_7c8aa"]
+material = SubResource("ShaderMaterial_xsm7f")
+
+[sub_resource type="Animation" id="Animation_bs7rn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles3D:draw_pass_1:material:shader_parameter/alpha")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:draw_pass_1:material:shader_parameter/rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.126]
+}
+
+[sub_resource type="Animation" id="Animation_ogiy0"]
+resource_name = "slash"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles3D:draw_pass_1:material:shader_parameter/alpha")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.8, 1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:draw_pass_1:material:shader_parameter/rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.794, 5.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gb02w"]
+_data = {
+"RESET": SubResource("Animation_bs7rn"),
+"slash": SubResource("Animation_ogiy0")
+}
+
+[node name="Node3D" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, -6.97574e-16, -1.5246e-23, -1.5246e-23, -4.37114e-08, 1, -6.97574e-16, -1, -4.37114e-08, 0, 0, 0)
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_tqa0e")
+draw_pass_1 = SubResource("QuadMesh_7c8aa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gb02w")
+}

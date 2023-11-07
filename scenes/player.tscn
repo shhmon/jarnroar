@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bas5tnphk8g2a"]
+
+[ext_resource type="PackedScene" uid="uid://d0octc8jmwqme" path="res://models/farmer.tscn" id="1_qfngf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0i0wx"]
+radius = 0.3
+height = 2.05
+
+[node name="Player" type="CharacterBody3D"]
+floor_stop_on_slope = false
+metadata/is_player = true
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Farmer" parent="Pivot" instance=ExtResource("1_qfngf")]
+
+[node name="Hurtbox" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.029, 0.07)
+shape = SubResource("CapsuleShape3D_0i0wx")
