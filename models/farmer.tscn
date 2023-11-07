@@ -1,8 +1,13 @@
-[gd_scene load_steps=104 format=3 uid="uid://d0octc8jmwqme"]
+[gd_scene load_steps=118 format=3 uid="uid://d0octc8jmwqme"]
 
 [ext_resource type="PackedScene" uid="uid://cil3jgyqwjbf4" path="res://models/Pipe.glb" id="1_6gsak"]
 [ext_resource type="PackedScene" uid="uid://cstswx5v46qty" path="res://scenes/slash.tscn" id="2_0s6kv"]
+[ext_resource type="Shader" uid="uid://cxba14bb5hdl5" path="res://shaders/fire.tres" id="3_c3aj2"]
 [ext_resource type="PackedScene" uid="uid://e5uk7bp6u4q2" path="res://scenes/healthbar.tscn" id="3_jpkab"]
+[ext_resource type="Texture2D" uid="uid://b4q468agxhqps" path="res://assets/Voronoi01.png" id="4_grtes"]
+[ext_resource type="Texture2D" uid="uid://ddfbj36kaq2ic" path="res://assets/Flame01.png" id="5_3p2qw"]
+[ext_resource type="PackedScene" uid="uid://c7hlib8an0wcv" path="res://scenes/fireball.tscn" id="7_4rjgs"]
+[ext_resource type="Shader" path="res://shaders/faja.gdshader" id="7_bnb1b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72dwo"]
 resource_name = "Brown2"
@@ -468,6 +473,61 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_q5mbo")
 flip_faces = true
 size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ntckm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ns0b"]
+render_priority = 0
+shader = ExtResource("7_bnb1b")
+shader_parameter/root_color = Color(1, 0, 0.0588235, 0.8)
+shader_parameter/tip_color = Color(1, 0.686275, 0, 0.45098)
+shader_parameter/fire_alpha = 1.0
+shader_parameter/fire_speed = Vector2(0, 1)
+shader_parameter/fire_aperture = 1.943
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_ntckm")
+
+[sub_resource type="Curve" id="Curve_rvyya"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.192435, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_djrrf"]
+curve = SubResource("Curve_rvyya")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wecy5"]
+lifetime_randomness = 0.23
+emission_shape = 1
+emission_sphere_radius = 0.01
+gravity = Vector3(2.08165e-12, 5, 2.08165e-12)
+initial_velocity_max = 0.01
+linear_accel_min = -14.19
+linear_accel_max = 5.55
+radial_accel_max = 2.47
+damping_max = 0.309
+scale_min = 0.75
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_djrrf")
+turbulence_enabled = true
+turbulence_noise_scale = 1.38
+
+[sub_resource type="QuadMesh" id="QuadMesh_c5txk"]
+size = Vector2(0.3, 0.3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qv0v6"]
+render_priority = 0
+shader = ExtResource("3_c3aj2")
+shader_parameter/DissolveTiling = Vector2(0.25, 0.25)
+shader_parameter/DissolveSpeed = Vector2(0, 0.2)
+shader_parameter/DissolveAmount = 0.638
+shader_parameter/MainTex = ExtResource("5_3p2qw")
+shader_parameter/DissolveTex = ExtResource("4_grtes")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4qyfq"]
+particle_flag_rotate_y = true
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+color = Color(100, 2.36, 0.6, 0.88)
+
+[sub_resource type="QuadMesh" id="QuadMesh_461hn"]
+size = Vector2(0.3, 0.3)
 
 [sub_resource type="Animation" id="Animation_qt2pm"]
 resource_name = "CharacterArmature|Death"
@@ -11968,6 +12028,35 @@ initial_velocity_max = 0.05
 angular_velocity_max = 0.1
 scale_amount_min = 0.5
 scale_amount_max = 5.0
+
+[node name="FootAttachment" type="BoneAttachment3D" parent="RootNode/CharacterArmature/Skeleton3D"]
+transform = Transform3D(0.518087, 0.855315, 0.00460345, 0.855328, -0.51808, -0.00272256, 5.6386e-05, 0.00534803, -0.999986, 0.00120592, 0.00114739, 0.000227517)
+bone_name = "Foot.L"
+bone_idx = 71
+
+[node name="GPUParticles3D3" type="GPUParticles3D" parent="RootNode/CharacterArmature/Skeleton3D/FootAttachment"]
+transform = Transform3D(1, -1.53995e-08, -2.80731e-10, -2.56752e-08, 1, -6.36581e-10, 2.09293e-10, 4.37013e-10, 1, 0, 0, 0)
+visible = false
+material_override = SubResource("ShaderMaterial_7ns0b")
+amount = 20
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_wecy5")
+draw_pass_1 = SubResource("QuadMesh_c5txk")
+
+[node name="Node3D" type="Node3D" parent="RootNode/CharacterArmature/Skeleton3D/FootAttachment"]
+transform = Transform3D(2.08165e-12, -1.18161e-19, -2.90415e-21, -5.23794e-20, 2.08165e-12, -8.10181e-21, 3.21389e-21, 1.59037e-21, 2.08165e-12, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="RootNode/CharacterArmature/Skeleton3D/FootAttachment/Node3D"]
+transform = Transform3D(1, -1.53995e-08, -2.80731e-10, -2.56752e-08, 1, -6.36581e-10, 2.09293e-10, 4.37013e-10, 1, 0, 0, 0)
+visible = false
+material_override = SubResource("ShaderMaterial_qv0v6")
+amount = 1
+lifetime = 0.49
+process_material = SubResource("ParticleProcessMaterial_4qyfq")
+draw_pass_1 = SubResource("QuadMesh_461hn")
+
+[node name="Fireball" parent="RootNode/CharacterArmature/Skeleton3D/FootAttachment" instance=ExtResource("7_4rjgs")]
+visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
