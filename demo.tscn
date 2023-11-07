@@ -62,6 +62,7 @@ script = ExtResource("4_wp00a")
 transform = Transform3D(1, -2.29916e-09, -3.98213e-08, 9.18008e-08, -1.71092e-08, -1, 1.96323e-08, 1, 5.42357e-09, 0.00637007, 0.0042302, -0.106023)
 
 [node name="AnimationTree2" parent="Player/Pivot/Farmer" index="2"]
+parameters/Block/BlockScale/scale = 1.0
 parameters/Kick/TimeScale/scale = 1.0
 parameters/Slash/StateMachine/QuickSlash1/TimeScale/scale = 1.0
 parameters/Slash/StateMachine/QuickSlash2/TimeScale/scale = 1.0

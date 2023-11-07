@@ -6,7 +6,7 @@ const SPEED = 5
 #const JUMP_VELOCITY = 4
 const TURN_SPEED = 2
 const ROTATION_SPEED = 20
-const WF_PROC_RATE = 0.55 # VERY DANGEROUS INCREASE WITH CAUTION!
+const WF_PROC_RATE = 0.4 # VERY DANGEROUS INCREASE WITH CAUTION!
 
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var animation_tree : AnimationTree = $Pivot.get_node("Farmer/AnimationTree2")
@@ -27,12 +27,13 @@ var kicking = false
 var is_dead = false
 var attack_rate = 1
 var hit_counter = 0
+var is_blocking = false
 
 var rng = RandomNumberGenerator.new()
 
-func take_damage(damage: int, crit: bool):
-	health = clamp(health - damage, 0, 100)
-	if health == 0: is_dead = true
+#func take_damage(damage: int, crit: bool):
+	#health = clamp(health - damage, 0, 100)
+	#if health == 0: is_dead = true
 
 func timeout(duration: float, callback: Callable):
 	get_tree().create_timer(duration).connect("timeout", callback)
@@ -89,6 +90,13 @@ func kick():
 	
 	timeout(duration, func(): kicking = false)
 	
+func block():
+	is_blocking = true
+	const duration = 0.6
+	velocity = Vector3.ZERO
+	
+	timeout(duration, func(): is_blocking = false)
+	
 
 func _ready():
 	animation_tree.active = true
@@ -98,6 +106,8 @@ func _ready():
 	animation_tree["parameters/Slash/SwingScale/scale"] = 2.5 # swing
 	animation_tree["parameters/RunSwing/RunSwingScale/scale"] = 2.5 # run swing
 	animation_tree["parameters/Kick/TimeScale/scale"] = 2
+	
+	animation_tree["parameters/Block/BlockScale/scale"] = 2
 	
 	# Windfury
 	animation_tree["parameters/Slash/StateMachine/QuickSlash1/TimeScale/scale"] = 7.5
@@ -118,8 +128,10 @@ func animate():
 	var charge_state = 0.01#(hit_counter / 3) / 10
 	fireball_effect.visible = hit_counter >= 3
 	fireball_effect.scale = Vector3(charge_state,charge_state,charge_state)
-		
+	
+	
 	moving = direction and (velocity.x or velocity.z)
+	animation_tree["parameters/conditions/blocking"] = is_blocking
 	
 	animation_tree["parameters/conditions/idle"] = not moving
 	animation_tree["parameters/conditions/moving"] = moving
@@ -150,9 +162,11 @@ func _physics_process(delta):
 			attack()
 		if Input.is_action_just_pressed("kick") and hit_counter >= 3:
 			kick()
+		if Input.is_action_just_pressed("block"):
+			block()
 			
 		
-	if not rolling and not kicking:
+	if not rolling and not kicking and not is_blocking:
 		var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		

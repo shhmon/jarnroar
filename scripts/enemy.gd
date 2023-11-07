@@ -17,6 +17,7 @@ var rolling = false
 var moving = false
 var attacking = false
 var is_dead = false
+var is_blocking = false
 
 var rng = RandomNumberGenerator.new()
 
