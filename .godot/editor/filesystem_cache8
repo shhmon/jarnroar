@@ -1,8 +1,8 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1699351424
-demo.tscn::PackedScene::229316749795823374::1699351200::0::1::::<><>::uid://cuh1yaoty6gvf::::res://scenes/camera.tscn<>uid://dvhb47hsrriqq::::res://mesh/grass6.res<>res://shaders/pixelart_stylizer.gdshader<>uid://bas5tnphk8g2a::::res://scenes/player.tscn<>res://scripts/player.gd<>uid://cna7myq5pqh44::::res://models/Column.glb<>res://scripts/enemy.gd<>uid://dy17g3l2jsicx::::res://models/grassmix.glb<>uid://bvafpt0146inx::::res://models/Mountains.glb<>uid://cvwqp0ciqwfom::::res://models/Mountain Group.glb<>uid://7gjtoic7aw3l::::res://models/Mountain.glb
+::res://::1699363101
+demo.tscn::PackedScene::229316749795823374::1699363101::0::1::::<><>::uid://cuh1yaoty6gvf::::res://scenes/camera.tscn<>uid://dvhb47hsrriqq::::res://mesh/grass6.res<>res://shaders/pixelart_stylizer.gdshader<>uid://bas5tnphk8g2a::::res://scenes/player.tscn<>res://scripts/player.gd<>uid://cna7myq5pqh44::::res://models/Column.glb<>res://scripts/enemy.gd<>uid://dy17g3l2jsicx::::res://models/grassmix.glb<>uid://bvafpt0146inx::::res://models/Mountains.glb<>uid://cvwqp0ciqwfom::::res://models/Mountain Group.glb<>uid://7gjtoic7aw3l::::res://models/Mountain.glb<>uid://d2p3jdfm0kquh::::res://models/Rocks2.glb<>uid://ca4y2j7xbsaub::::res://models/Rocks.glb
 icon.svg::CompressedTexture2D::106644034236913418::1699114146::1699351425::1::::<><>::
-::res://assets/::1699200327
+::res://assets/::1699351425
 slash (26).png::CompressedTexture2D::7913862148986836956::1699200278::1699351425::1::::<><>::
 slash (27).png::CompressedTexture2D::6704571627136116834::1699200298::1699351425::1::::<><>::
 ::res://mesh/::1699193169
@@ -17,12 +17,12 @@ grass8.res::ArrayMesh::2519488344867139074::1699193169::0::1::::<><>::
 grass9.res::ArrayMesh::8523766157428833743::1699193169::0::1::::<><>::
 grass10.res::ArrayMesh::5232843911060282785::1699193169::0::1::::<><>::
 grass.res::ArrayMesh::616220756832761184::1699193168::0::1::::<><>::
-::res://models/::1699351367
+::res://models/::1699363191
 Arch Round.glb::PackedScene::7830647948429640872::1699221496::1699351425::1::::<><>::
 Bonfire.glb::PackedScene::1091237855203897456::1699221511::1699351425::1::::<><>::
 Column.glb::PackedScene::5687261994637028547::1699134211::1699351425::1::::<><>::
 Farmer.glb::PackedScene::5341650066690731165::1699114798::1699351425::1::::<><>::
-farmer.tscn::PackedScene::8943039951107760044::1699351200::0::1::::<><>::uid://cil3jgyqwjbf4::::res://models/Pipe.glb<>uid://cstswx5v46qty::::res://scenes/slash.tscn<>uid://e5uk7bp6u4q2::::res://scenes/healthbar.tscn
+farmer.tscn::PackedScene::8943039951107760044::1699363101::0::1::::<><>::uid://cil3jgyqwjbf4::::res://models/Pipe.glb<>uid://cstswx5v46qty::::res://scenes/slash.tscn<>uid://e5uk7bp6u4q2::::res://scenes/healthbar.tscn
 Floor Tile.glb::PackedScene::6067864443318656988::1699221443::1699351425::1::::<><>::
 grassmix.glb::PackedScene::8899423267415743675::1699193227::1699351426::1::::<><>::
 Mountain Group.glb::PackedScene::6293222969726132268::1699221531::1699351426::1::::<><>::
@@ -30,16 +30,20 @@ Mountain.glb::PackedScene::2259010393779483483::1699221559::1699351426::1::::<><
 Mountains.glb::PackedScene::3860717809749252921::1699221546::1699351426::1::::<><>::
 Pipe.glb::PackedScene::5358776772699851891::1699123807::1699351426::1::::<><>::uid://crtehl76d6ewg::::res://models/Pipe_Diffuse_palette_2.png
 Pipe_Diffuse_palette_2.png::CompressedTexture2D::6005530883692612362::1699123870::1699351425::1::::<><>::
+Rocks2.glb::PackedScene::9087042809432797455::1699361955::1699361973::1::::<><>::
+Rocks.glb::PackedScene::4834214269706714793::1699361925::1699361973::1::::<><>::
+Tree.glb::PackedScene::6505258636463249126::1699363146::1699363192::1::::<><>::
+Wall Modular.glb::PackedScene::5300681488207231693::1699363185::1699363192::1::::<><>::
 ::res://scenes/::1699351200
 camera.tscn::PackedScene::6192690407814746815::1699350198::0::1::::<><>::res://scripts/camera.gd<>res://shaders/pixelart_stylizer.gdshader
 column.tscn::PackedScene::2511747801771385352::1699196527::0::1::::<><>::uid://cna7myq5pqh44::::res://models/Column.glb
 healthbar.tscn::PackedScene::343920587984088031::1699222183::0::1::::<><>::
 player.tscn::PackedScene::2425435629441698294::1699287050::0::1::::<><>::uid://d0octc8jmwqme::::res://models/farmer.tscn
 slash.tscn::PackedScene::6076597178908945862::1699211425::0::1::::<><>::res://shaders/slash.gdshader<>uid://c2r0kykuvpeh3::::res://assets/slash (27).png<>uid://dk0sfhj27ex3i::::res://assets/slash (26).png
-::res://scripts/::1699351200
+::res://scripts/::1699361595
 camera.gd::GDScript::-1::1699115801::0::1::::<>Camera3D<>::
-enemy.gd::GDScript::-1::1699350029::0::1::::<>CharacterBody3D<>::
-player.gd::GDScript::-1::1699351200::0::1::::<>CharacterBody3D<>::
+enemy.gd::GDScript::-1::1699361595::0::1::::<>CharacterBody3D<>::
+player.gd::GDScript::-1::1699360704::0::1::::<>CharacterBody3D<>::
 ::res://shaders/::1699350203
 grass.gdshader::Shader::-1::1699350203::0::1::::<><>::
 ground.gdshader::Shader::-1::1699350203::0::1::::<><>::

@@ -450,12 +450,12 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iqkwd"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_77j78"]
+shading_mode = 0
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_q4nin"]
-lightmap_size_hint = Vector2i(2, 2)
-material = SubResource("ShaderMaterial_iqkwd")
-size = Vector2(0.1, 0.1)
+[sub_resource type="BoxMesh" id="BoxMesh_gjml0"]
+material = SubResource("StandardMaterial3D_77j78")
+size = Vector3(1, 0.1, 0.2)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dyrm4"]
 radius = 0.1
@@ -10114,10 +10114,10 @@ tracks/62/path = NodePath("RootNode/CharacterArmature/Skeleton3D/PipeAttachment/
 tracks/62/interp = 1
 tracks/62/loop_wrap = true
 tracks/62/keys = {
-"times": PackedFloat32Array(0.2, 0.6),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.25, 0.55, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [false, true]
+"values": [true, false, true, true]
 }
 tracks/63/type = "value"
 tracks/63/imported = false
@@ -10126,10 +10126,10 @@ tracks/63/path = NodePath("RootNode/CharacterArmature/Skeleton3D/PipeAttachment/
 tracks/63/interp = 1
 tracks/63/loop_wrap = true
 tracks/63/keys = {
-"times": PackedFloat32Array(0.25, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [true, false]
+"values": [false, true, false]
 }
 
 [sub_resource type="Animation" id="Animation_h224a"]
@@ -11020,7 +11020,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -11032,7 +11032,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_x6voe"]
@@ -11225,7 +11225,7 @@ nodes/StateMachine/position = Vector2(542.103, 429.589)
 nodes/SwingScale/node = SubResource("AnimationNodeTimeScale_hvapr")
 nodes/SwingScale/position = Vector2(697.143, 194.286)
 nodes/output/position = Vector2(1074.29, 228.571)
-node_connections = [&"output", 0, &"QuickBlend", &"SwingScale", 0, &"Animation", &"QuickBlend", 0, &"SwingScale", &"QuickBlend", 1, &"StateMachine"]
+node_connections = [&"output", 0, &"QuickBlend", &"QuickBlend", 0, &"SwingScale", &"QuickBlend", 1, &"StateMachine", &"SwingScale", 0, &"Animation"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qm1qr"]
 advance_mode = 2
@@ -11238,6 +11238,7 @@ advance_condition = &"moving"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t7rh7"]
 xfade_time = 0.1
+switch_mode = 2
 advance_mode = 2
 advance_condition = &"moving"
 
@@ -11303,6 +11304,8 @@ advance_mode = 2
 advance_condition = &"idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vtohe"]
+xfade_time = 0.1
+switch_mode = 2
 advance_mode = 2
 advance_condition = &"moving"
 
@@ -11317,16 +11320,16 @@ states/End/position = Vector2(1107.5, 104.281)
 states/Idle/node = SubResource("AnimationNodeBlendTree_78ixy")
 states/Idle/position = Vector2(394.438, 103.717)
 states/Kick/node = SubResource("AnimationNodeBlendTree_luwxc")
-states/Kick/position = Vector2(472.07, -15.0956)
+states/Kick/position = Vector2(469.784, -49.9527)
 states/Roll/node = SubResource("AnimationNodeBlendTree_sec05")
 states/Roll/position = Vector2(591.034, 246.269)
 states/RunSwing/node = SubResource("AnimationNodeBlendTree_rgjfl")
 states/RunSwing/position = Vector2(839.034, 101.663)
 states/Slash/node = SubResource("AnimationNodeBlendTree_bkoym")
-states/Slash/position = Vector2(613.437, -9.2308)
+states/Slash/position = Vector2(646.008, -30.3737)
 states/Start/position = Vector2(-141.929, 103.127)
 transitions = ["RunSwing", "Roll", SubResource("AnimationNodeStateMachineTransition_qm1qr"), "Roll", "RunSwing", SubResource("AnimationNodeStateMachineTransition_11rr7"), "Slash", "RunSwing", SubResource("AnimationNodeStateMachineTransition_t7rh7"), "Slash", "Roll", SubResource("AnimationNodeStateMachineTransition_kokks"), "Roll", "CharacterArmature|Death", SubResource("AnimationNodeStateMachineTransition_sbia8"), "Slash", "CharacterArmature|Death", SubResource("AnimationNodeStateMachineTransition_vm7de"), "RunSwing", "CharacterArmature|Death", SubResource("AnimationNodeStateMachineTransition_6vncu"), "Idle", "Slash", SubResource("AnimationNodeStateMachineTransition_n2ina"), "Slash", "Idle", SubResource("AnimationNodeStateMachineTransition_t1pl8"), "Idle", "Roll", SubResource("AnimationNodeStateMachineTransition_p7ci4"), "Roll", "Idle", SubResource("AnimationNodeStateMachineTransition_673s7"), "Idle", "RunSwing", SubResource("AnimationNodeStateMachineTransition_d8h15"), "RunSwing", "Idle", SubResource("AnimationNodeStateMachineTransition_rwxql"), "Idle", "CharacterArmature|Death", SubResource("AnimationNodeStateMachineTransition_dee48"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_qy540"), "Idle", "Kick", SubResource("AnimationNodeStateMachineTransition_c7scj"), "Kick", "Idle", SubResource("AnimationNodeStateMachineTransition_bwg4l"), "Kick", "RunSwing", SubResource("AnimationNodeStateMachineTransition_vtohe"), "Kick", "Roll", SubResource("AnimationNodeStateMachineTransition_nm6l6")]
-graph_offset = Vector2(-379.848, -86.8201)
+graph_offset = Vector2(128.943, -83.167)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ay8ws"]
 viewport_path = NodePath("SubViewport")
@@ -11351,7 +11354,7 @@ bones/1/parent = 0
 bones/1/rest = Transform3D(0.889051, 3.19051e-31, 0.457808, -2.83652e-31, 1, -1.46066e-31, -0.457808, 1.51051e-36, 0.889051, 4.53219e-06, 0.00836781, -0.000456057)
 bones/1/enabled = true
 bones/1/position = Vector3(4.53217e-06, 0.00828592, -0.000442991)
-bones/1/rotation = Quaternion(0.000460926, 0.2358, 0.000137049, 0.971802)
+bones/1/rotation = Quaternion(0.000460926, 0.2358, 0.000137049, 0.971801)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "Hips"
 bones/2/parent = 1
@@ -11379,7 +11382,7 @@ bones/5/parent = 4
 bones/5/rest = Transform3D(1, -0.00011671, 7.41536e-07, 0.000116678, 0.999839, 0.0179138, -2.83214e-06, -0.0179138, 0.99984, 5.82077e-13, 0.00216292, -9.54969e-11)
 bones/5/enabled = true
 bones/5/position = Vector3(5.82077e-13, 0.00216292, -9.54969e-11)
-bones/5/rotation = Quaternion(0.00283288, 1.89167e-07, 2.06765e-07, 0.999996)
+bones/5/rotation = Quaternion(0.00283288, 1.89167e-07, 2.06766e-07, 0.999996)
 bones/5/scale = Vector3(1, 1, 1)
 bones/6/name = "Neck"
 bones/6/parent = 5
@@ -11652,7 +11655,7 @@ bones/44/parent = 43
 bones/44/rest = Transform3D(0.999759, 0.0105034, -0.0192552, -0.00933475, 0.998166, 0.0598114, 0.0198481, -0.0596172, 0.998024, -1.49012e-10, 0.000295314, 7.45058e-11)
 bones/44/enabled = true
 bones/44/position = Vector3(-1.49012e-10, 0.000295314, 7.45058e-11)
-bones/44/rotation = Quaternion(-0.867925, -0.0641336, 0.21632, 0.442491)
+bones/44/rotation = Quaternion(0.867926, 0.0641336, -0.21632, -0.442491)
 bones/44/scale = Vector3(1, 1, 1)
 bones/45/name = "Index4.R_end"
 bones/45/parent = 44
@@ -11687,7 +11690,7 @@ bones/49/parent = 48
 bones/49/rest = Transform3D(0.999584, -0.0218862, -0.0187623, 0.022585, 0.999027, 0.0378763, 0.0179151, -0.0382843, 0.999106, -3.72529e-10, 0.000403717, -1.49012e-10)
 bones/49/enabled = true
 bones/49/position = Vector3(-3.72529e-10, 0.000403717, -1.49012e-10)
-bones/49/rotation = Quaternion(-0.923386, 0.0460729, 0.0639175, 0.3757)
+bones/49/rotation = Quaternion(0.923386, -0.0460729, -0.0639175, -0.3757)
 bones/49/scale = Vector3(1, 1, 1)
 bones/50/name = "Middle4.R_end"
 bones/50/parent = 49
@@ -11722,7 +11725,7 @@ bones/54/parent = 53
 bones/54/rest = Transform3D(0.998078, -0.0103874, -0.0610956, 0.0194345, 0.988584, 0.149411, 0.0588462, -0.150312, 0.986886, 1.49012e-10, 0.000331776, 1.49012e-10)
 bones/54/enabled = true
 bones/54/position = Vector3(1.49012e-10, 0.000331776, 1.49012e-10)
-bones/54/rotation = Quaternion(-0.69467, -0.00921616, 0.521252, 0.495626)
+bones/54/rotation = Quaternion(0.69467, 0.00921616, -0.521252, -0.495626)
 bones/54/scale = Vector3(1, 1, 1)
 bones/55/name = "Ring4.R_end"
 bones/55/parent = 54
@@ -11757,7 +11760,7 @@ bones/59/parent = 58
 bones/59/rest = Transform3D(0.999309, -0.0100516, 0.0357856, 0.00146228, 0.972629, 0.23236, -0.0371417, -0.232147, 0.971971, -2.23517e-10, 0.000275831, 1.49012e-10)
 bones/59/enabled = true
 bones/59/position = Vector3(-2.23517e-10, 0.000275831, 1.49012e-10)
-bones/59/rotation = Quaternion(-0.874262, 0.042289, -0.000567673, 0.483608)
+bones/59/rotation = Quaternion(0.874262, -0.042289, 0.000567671, -0.483608)
 bones/59/scale = Vector3(1, 1, 1)
 bones/60/name = "Pinky4.R_end"
 bones/60/parent = 59
@@ -11910,24 +11913,29 @@ mesh = SubResource("ArrayMesh_wglyi")
 skin = SubResource("Skin_ixmd2")
 
 [node name="PipeAttachment" type="BoneAttachment3D" parent="RootNode/CharacterArmature/Skeleton3D"]
-transform = Transform3D(-0.329438, -0.0372493, -0.943442, 0.914362, -0.261708, -0.308951, -0.235398, -0.964428, 0.120276, -0.00211791, -0.00138813, 0.0102314)
+transform = Transform3D(-0.329438, -0.0372492, -0.943442, 0.914362, -0.261708, -0.308951, -0.235398, -0.964428, 0.120276, -0.00211791, -0.00138813, 0.0102314)
 bone_name = "Wrist.R"
 bone_idx = 40
 
 [node name="Pipe" parent="RootNode/CharacterArmature/Skeleton3D/PipeAttachment" instance=ExtResource("1_6gsak")]
-transform = Transform3D(0.00149689, 0.00108778, 0.004645, 0.00475317, -0.000756667, -0.00135455, 0.000408255, 0.00482122, -0.00126061, -0.00279709, 0.0018835, 0.00048541)
+transform = Transform3D(0.00209565, 0.00152289, 0.00650301, 0.00665444, -0.00105934, -0.00189637, 0.000571557, 0.00674971, -0.00176486, -0.00376474, 0.00216046, 0.000812366)
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe"]
-transform = Transform3D(1, -4.10602e-08, 1.02504e-07, -2.7125e-09, 1, -6.80271e-08, -1.32188e-07, 2.50106e-08, 1, 0.1097, 0.00349313, -0.952381)
-visible = false
+transform = Transform3D(1, -3.47825e-08, 1.02475e-07, 3.83475e-08, 1, -5.43621e-08, -1.30572e-07, 3.54857e-08, 1, 0.1097, 0.00349313, -0.952381)
 emitting = false
 amount = 20
-lifetime = 0.2
-speed_scale = 0.9
-fract_delta = false
-mesh = SubResource("PlaneMesh_q4nin")
-flatness = 1.0
+lifetime = 0.3
+speed_scale = 2.0
+explosiveness = 0.01
+draw_order = 2
+mesh = SubResource("BoxMesh_gjml0")
+direction = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
 gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+initial_velocity_max = 120.23
+angular_velocity_min = -174.8
+angular_velocity_max = 116.53
+tangential_accel_max = 2.0
+damping_max = 0.5
 
 [node name="Node3D" parent="RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe" instance=ExtResource("2_0s6kv")]
 transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, -3.48787e-16, -3.48787e-16, 3.48787e-16, 1, -0.274, -0.47, -0.358)
@@ -11936,7 +11944,7 @@ visible = false
 [node name="Area3D" type="Area3D" parent="RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe/Area3D"]
-transform = Transform3D(1, -2.18899e-09, -3.72033e-08, 8.85406e-08, -3.08947e-08, -1, 2.08363e-08, 1, 5.03319e-09, 0.00637019, 0.0042302, -0.106023)
+transform = Transform3D(1, -2.53199e-09, -3.98213e-08, 8.58366e-08, -2.82851e-08, -1, 2.03286e-08, 1, 5.42357e-09, 0.00637007, 0.0042302, -0.106023)
 shape = SubResource("CapsuleShape3D_dyrm4")
 disabled = true
 
@@ -11971,7 +11979,6 @@ libraries = {
 [node name="AnimationTree2" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_7m0rg")
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/conditions/dead = false
 parameters/conditions/idle = false
 parameters/conditions/jump = false

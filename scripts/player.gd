@@ -4,7 +4,7 @@ const SPEED = 5
 #const JUMP_VELOCITY = 4
 const TURN_SPEED = 2
 const ROTATION_SPEED = 20
-const WF_PROC_RATE = 0.2 # VERY DANGEROUS INCREASE WITH CAUTION!
+const WF_PROC_RATE = 0.05 # VERY DANGEROUS INCREASE WITH CAUTION!
 
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var animation_tree : AnimationTree = $Pivot.get_node("Farmer/AnimationTree2")
@@ -19,6 +19,7 @@ var moving = false
 var attacking = false
 var kicking = false
 var is_dead = false
+var attack_rate = 1
 
 var rng = RandomNumberGenerator.new()
 
@@ -43,19 +44,12 @@ func roll():
 
 
 func attack():
-	# Set attack to true
+	
 	attacking = true
-
 	
 	const duration = 0.3
 	
 	# Attack may result in  wf proc
-	
-	#if rng.randf() <= WF_PROC_RATE:
-	#	animation_tree["parameters/RunSwing/SwingScale/scale"] = SPEED * 3.5
-	#	animation_tree["parameters/Swing/SwingScale/scale"] = SPEED * 3.5
-	
-	# spawn hitbox
 	if rng.randf() <= WF_PROC_RATE:
 		animation_tree["parameters/Slash/QuickBlend/blend_amount"] = 1
 	
@@ -69,20 +63,29 @@ func attack():
 func kick():
 	kicking = true
 	
-	const duration = 0.2
+	const duration = 0.6
 	
 	# kick
+	velocity = Vector3.ZERO
 	
 	timeout(duration, func(): kicking = false)
 	
 
 func _ready():
 	animation_tree.active = true
-	animation_tree["parameters/Roll/RollScale/scale"] = SPEED / 2.7
-	animation_tree["parameters/RunSwing/RunScale/scale"] = SPEED / 3.5
+	animation_tree["parameters/Roll/RollScale/scale"] = SPEED / 2.7 # roll
+	animation_tree["parameters/RunSwing/RunScale/scale"] = SPEED / 3.5 # run
+	
+	animation_tree["parameters/Slash/SwingScale/scale"] = 2.5 # swing
+	animation_tree["parameters/RunSwing/RunSwingScale/scale"] = 2.5 # run swing
+	animation_tree["parameters/Kick/TimeScale/scale"] = 2
+	
+	# Windfury
 	animation_tree["parameters/Slash/StateMachine/QuickSlash1/TimeScale/scale"] = 7.5
 	animation_tree["parameters/Slash/StateMachine/QuickSlash2/TimeScale/scale"] = 7.5
 	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
+	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
+	
 
 func _process(delta):
 	healthbar.value = health
@@ -107,15 +110,15 @@ func animate():
 	animation_tree["parameters/conditions/jump"] = rolling
 
 func _physics_process(delta):
+		# Add the gravity.
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+		
 	if is_dead: return
 	
 	on_floor = is_on_floor()
 	
 	#print("moving: ", moving, " / rolling: ", rolling, " / attacking:", attacking)
-	
-	# Add the gravity.
-	if not on_floor:
-		velocity.y -= gravity * delta
 	
 	if not rolling and not attacking and not kicking:
 		if Input.is_action_just_pressed("ui_accept"):
@@ -143,8 +146,9 @@ func _physics_process(delta):
 	move_and_slide()
 
 
-func _on_area_3d_body_exited(body):
+func _on_area_3d_body_entered(body):
 	if body.has_method("take_damage") and body.is_in_group("enemies"):
 		var is_crit = rng.randf() <= crit_chance
 		var multiplier = 2 if is_crit else 1
-		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, transform.basis.z)
+		var direction = -(transform.origin - body.transform.origin).normalized()
+		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30)
