@@ -9,6 +9,10 @@ const WF_PROC_RATE = 0.55 # VERY DANGEROUS INCREASE WITH CAUTION!
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var animation_tree : AnimationTree = $Pivot.get_node("Farmer/AnimationTree2")
 @onready var healthbar : ProgressBar = $Pivot.get_node("Farmer/SubViewport/Healthbar")
+@onready var fireball_spell = preload("res://scenes/fireball_spell.tscn")
+@onready var skeleton = $Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D
+@onready var foot_idx = skeleton.find_bone("LowerLeg.L_end")
+@onready var fireball_effect = $Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/FootAttachment/Fireball
 
 var crit_chance = 0.30 # 5% critchance is to weak
 var health = 100
@@ -20,9 +24,9 @@ var attacking = false
 var kicking = false
 var is_dead = false
 var attack_rate = 1
+var hit_counter = 0
 
 var rng = RandomNumberGenerator.new()
-
 
 func take_damage(damage: int, crit: bool):
 	health = clamp(health - damage, 0, 100)
@@ -62,11 +66,24 @@ func attack():
 	
 func kick():
 	kicking = true
+	hit_counter = 0
 	
 	const duration = 0.4
 	
 	# kick
 	velocity = Vector3.ZERO
+	
+	timeout(duration / 2,
+		func ():
+			var fireball = fireball_spell.instantiate()
+			get_node("/root/Main").add_child(fireball)
+			var foot_position = skeleton.to_global(skeleton.get_bone_global_pose(foot_idx).origin)
+			#var direction = -(transform.origin - foot_position).normalized()
+			#var direction = $Pivot.rotation
+			var direction = Vector3(0,0,1).rotated(Vector3(0,1,0), $Pivot.rotation.y)
+			fireball.transform.origin = foot_position
+			fireball.velocity = Vector3(direction.x, 0, direction.z) * 10
+	)
 	
 	timeout(duration, func(): kicking = false)
 	
@@ -95,6 +112,10 @@ func animate():
 	if is_dead:
 		animation_tree["parameters/conditions/dead"] = true
 		return
+	
+	var charge_state = 0.01#(hit_counter / 3) / 10
+	fireball_effect.visible = hit_counter >= 3
+	fireball_effect.scale = Vector3(charge_state,charge_state,charge_state)
 		
 	moving = direction and (velocity.x or velocity.z)
 	
@@ -125,7 +146,7 @@ func _physics_process(delta):
 			roll()
 		if Input.is_action_just_pressed("murder"):
 			attack()
-		if Input.is_action_just_pressed("kick"):
+		if Input.is_action_just_pressed("kick") and hit_counter >= 3:
 			kick()
 			
 		
@@ -148,6 +169,7 @@ func _physics_process(delta):
 
 func _on_area_3d_body_entered(body):
 	if body.has_method("take_damage") and body.is_in_group("enemies"):
+		hit_counter += 1
 		var is_crit = rng.randf() <= crit_chance
 		var multiplier = 2 if is_crit else 1
 		var direction = -(transform.origin - body.transform.origin).normalized()
