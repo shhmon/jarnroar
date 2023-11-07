@@ -1,4 +1,3 @@
 res://demo.tscn
-res://scripts/player.gd
-res://models/farmer.tscn
 res://scripts/enemy.gd
+res://models/farmer.tscn

@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://chrxpj25h7870" path="res://models/Wall Modular.glb" id="12_s6kp8"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_7pkd0"]
-viewport_path = NodePath("Player/Pivot/Farmer/SubViewport")
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4y6ih"]
 size = Vector3(50, 2.08165e-12, 50)
@@ -108,6 +108,21 @@ environment = SubResource("Environment_t4b23")
 [node name="Player2" parent="." groups=["enemies"] instance=ExtResource("3_ojgat")]
 transform = Transform3D(0.793066, 0, -0.609135, 0, 1, 0, 0.609135, 0, 0.793066, 1.69385, 0, -3.03878)
 script = ExtResource("8_mw63h")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Player2"]
+follow_viewport_scale = 349.412
+
+[node name="Label3D" type="Label3D" parent="Player2/CanvasLayer"]
+transform = Transform3D(1, 0, 1.53856e-08, 0, 1, 0, -1.51264e-08, 0, 1, -1.19209e-07, 0, 2.38419e-07)
+visible = false
+text = "bibibibi"
+font_size = 5000
+
+[node name="Label" type="Label" parent="Player2/CanvasLayer"]
+visible = false
+offset_right = 48.0
+offset_bottom = 26.0
+text = "textyy"
 
 [node name="Props" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00887084, 0.0127926, -0.00533962)
