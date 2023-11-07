@@ -63,7 +63,7 @@ func attack():
 func kick():
 	kicking = true
 	
-	const duration = 0.6
+	const duration = 0.4
 	
 	# kick
 	velocity = Vector3.ZERO
