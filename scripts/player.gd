@@ -4,7 +4,7 @@ const SPEED = 5
 #const JUMP_VELOCITY = 4
 const TURN_SPEED = 2
 const ROTATION_SPEED = 20
-const WF_PROC_RATE = 0.05 # VERY DANGEROUS INCREASE WITH CAUTION!
+const WF_PROC_RATE = 0.55 # VERY DANGEROUS INCREASE WITH CAUTION!
 
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var animation_tree : AnimationTree = $Pivot.get_node("Farmer/AnimationTree2")
