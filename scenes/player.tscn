@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bas5tnphk8g2a"]
+[gd_scene load_steps=5 format=3 uid="uid://bas5tnphk8g2a"]
 
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_pc04v"]
 [ext_resource type="PackedScene" uid="uid://d0octc8jmwqme" path="res://models/farmer.tscn" id="1_qfngf"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gr7un"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0i0wx"]
 radius = 0.3
@@ -8,12 +12,29 @@ height = 2.05
 
 [node name="Player" type="CharacterBody3D"]
 floor_stop_on_slope = false
+script = ExtResource("1_pc04v")
 metadata/is_player = true
 
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Farmer" parent="Pivot" instance=ExtResource("1_qfngf")]
 
+[node name="PipeAttachment" parent="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D" index="4"]
+transform = Transform3D(-0.335219, -0.00437128, -0.94213, 0.888218, -0.334916, -0.314483, -0.31416, -0.942238, 0.116153, -0.00210448, -0.00141017, 0.0102429)
+
+[node name="BloodAttachment" parent="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D" index="5"]
+transform = Transform3D(0.889051, 3.19052e-31, 0.457808, 0.457808, -1.3933e-36, -0.889051, -2.83653e-31, 1, -1.46066e-31, 4.53208e-06, -0.00026683, 0.00828953)
+
+[node name="FootAttachment" parent="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D" index="6"]
+transform = Transform3D(0.518087, 0.855315, 0.00460345, 0.855328, -0.51808, -0.00272256, 5.6386e-05, 0.00534803, -0.999986, 0.00120592, 0.00114739, 0.000227517)
+
+[node name="Healthbar" parent="Pivot/Farmer" index="3"]
+texture = SubResource("ViewportTexture_gr7un")
+
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.029, 0.07)
 shape = SubResource("CapsuleShape3D_0i0wx")
+
+[connection signal="body_entered" from="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe/Area3D" to="." method="_on_area_3d_body_entered"]
+
+[editable path="Pivot/Farmer"]

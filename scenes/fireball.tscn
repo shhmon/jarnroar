@@ -68,6 +68,7 @@ draw_pass_1 = SubResource("QuadMesh_4gnd3")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, -1.53995e-08, -2.80731e-10, -2.56752e-08, 1, -6.36581e-10, 2.09293e-10, 4.37013e-10, 1, 0, 0, 0)
+visible = false
 material_override = SubResource("ShaderMaterial_fym80")
 amount = 1
 lifetime = 0.49

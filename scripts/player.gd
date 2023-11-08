@@ -1,7 +1,5 @@
 extends CharacterBody3D
 
-var globals = preload("res://scripts/globals.gd")
-
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var animation_tree : AnimationTree = $Pivot.get_node("Farmer/AnimationTree2")
 @onready var healthbar : ProgressBar = $Pivot.get_node("Farmer/SubViewport/Healthbar")
@@ -10,6 +8,7 @@ var globals = preload("res://scripts/globals.gd")
 @onready var foot_idx = skeleton.find_bone("LowerLeg.L_end")
 @onready var fireball_effect = $Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/FootAttachment/Fireball
 @onready var bloodparticles : CPUParticles3D = $Pivot.get_node("Farmer/RootNode/CharacterArmature/Skeleton3D/BloodAttachment/Particles")
+@onready var camera = $Camera
 
 var health = 100
 var direction : Vector3 = Vector3.ZERO
@@ -33,7 +32,7 @@ func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, ty
 	bloodparticles.emitting = true
 	animation_tree["parameters/Idle/HitShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	
-	health = clamp(health - damage, 0, globals.MAX_HEALTH)
+	health = clamp(health - damage, 0, Globals.MAX_HEALTH)
 	show_dmg(damage, crit, type)
 	
 	dead = health == 0
@@ -46,10 +45,10 @@ func show_dmg(dmg, crit, type: int):
 	pos.x = pos.x + rng.randf_range(-150,150)
 	dmg_label.set_position(pos)
 	
-	var color = Color(1,1,1) if type == globals.DAMAGE_TYPE.PHYS else Color(1,1,0)
+	var color = Color(1,1,1) if type == Globals.DAMAGE_TYPE.PHYS else Color(1,1,0)
 	dmg_label.text = str(dmg)
 	dmg_label.modulate = color
-	var scaleVector = Vector2(globals.DMG_SCALE, globals.DMG_SCALE)
+	var scaleVector = Vector2(Globals.DMG_SCALE, Globals.DMG_SCALE)
 	dmg_label.scale = scaleVector * 2 if crit else scaleVector
 
 	# add to viewport
@@ -57,20 +56,20 @@ func show_dmg(dmg, crit, type: int):
 	viewport.add_child(dmg_label)	
 	
 	# Remove after a while
-	timeout(globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
+	timeout(Globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
 	
 	for i in range(1,11):
 
-		timeout(.3+i*globals.FADE_RATE, func(): dmg_label.modulate = Color(1,1,color.b,1-i*globals.FADE_RATE))
+		timeout(.3+i*Globals.FADE_RATE, func(): dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE))
 	
 func roll():
 	rolling = true
 	
-	var duration = globals.SPEED / 7.15
-	var speed = globals.SPEED * 3
+	var duration = Globals.SPEED / 7.15
+	var speed = Globals.SPEED * 3
 	
-	velocity.x = $Pivot.transform.basis.z.x * globals.SPEED * 2
-	velocity.z = $Pivot.transform.basis.z.z * globals.SPEED * 2
+	velocity.x = $Pivot.transform.basis.z.x * Globals.SPEED * 2
+	velocity.z = $Pivot.transform.basis.z.z * Globals.SPEED * 2
 	
 	timeout(duration, func (): rolling = false)
 
@@ -80,7 +79,7 @@ func attack():
 	const duration = 0.3
 	
 	# Attack may result in  wf proc
-	if rng.randf() <= globals.WF_PROC_RATE:
+	if rng.randf() <= Globals.WF_PROC_RATE:
 		animation_tree["parameters/Slash/QuickBlend/blend_amount"] = 1
 	
 	# Reset flags after duration
@@ -121,8 +120,8 @@ func block():
 
 func _ready():
 	animation_tree.active = true
-	animation_tree["parameters/Roll/RollScale/scale"] = globals.SPEED / 2.7 # roll
-	animation_tree["parameters/RunSwing/RunScale/scale"] = globals.SPEED / 3.5 # run
+	animation_tree["parameters/Roll/RollScale/scale"] = Globals.SPEED / 2.7 # roll
+	animation_tree["parameters/RunSwing/RunScale/scale"] = Globals.SPEED / 3.5 # run
 	
 	animation_tree["parameters/Slash/SwingScale/scale"] = 2.5 # swing
 	animation_tree["parameters/RunSwing/RunSwingScale/scale"] = 2.5 # run swing
@@ -135,6 +134,9 @@ func _ready():
 	animation_tree["parameters/Slash/StateMachine/QuickSlash2/TimeScale/scale"] = 7.5
 	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
 	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
+	
+	#if camera:
+		#camera.transform
 	
 
 func _process(delta):
@@ -192,14 +194,14 @@ func _physics_process(delta):
 		direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		
 		if direction:
-			velocity.x = direction.x * globals.SPEED
-			velocity.z = direction.z * globals.SPEED
+			velocity.x = direction.x * Globals.SPEED
+			velocity.z = direction.z * Globals.SPEED
 			
-			$Pivot.rotation.y = lerp_angle($Pivot.rotation.y, atan2(direction.x, direction.z), delta * globals.ROTATION_SPEED)
+			$Pivot.rotation.y = lerp_angle($Pivot.rotation.y, atan2(direction.x, direction.z), delta * Globals.ROTATION_SPEED)
 				
 		else:
-			velocity.x = move_toward(velocity.x, 0, globals.SPEED)
-			velocity.z = move_toward(velocity.z, 0, globals.SPEED)
+			velocity.x = move_toward(velocity.x, 0, Globals.SPEED)
+			velocity.z = move_toward(velocity.z, 0, Globals.SPEED)
 
 	move_and_slide()
 
@@ -207,13 +209,13 @@ func _physics_process(delta):
 func _on_area_3d_body_entered(body):
 	if body.has_method("take_damage") and body != self:
 		hit_counter += 1
-		var is_crit = rng.randf() <= globals.CRIT_CHANCE
+		var is_crit = rng.randf() <= Globals.CRIT_CHANCE
 		var multiplier = 2 if is_crit else 1
 		var direction = -(transform.origin - body.transform.origin).normalized()
-		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, globals.DAMAGE_TYPE.PHYS)
+		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, Globals.DAMAGE_TYPE.PHYS)
 		
 		
-func _input(event):
-	if event is InputEventMouseButton:
-		var position3D = $Camera.project_position(event.position, transform.origin.z) # verified
-		var vec = -(transform.origin - Vector3(position3D.x, position3D.y, 0)).normalized()
+#func _input(event):
+	#if event is InputEventMouseButton:
+		#var position3D = $Camera.project_position(event.position, transform.origin.z) # verified
+		#var vec = -(transform.origin - Vector3(position3D.x, position3D.y, 0)).normalized()
