@@ -1,12 +1,6 @@
 extends CharacterBody3D
 
-enum DAMAGE_TYPE { PHYS, MAGIC }
-
-const SPEED = 5
-#const JUMP_VELOCITY = 4
-const TURN_SPEED = 2
-const ROTATION_SPEED = 20
-const WF_PROC_RATE = 0.4 # VERY DANGEROUS INCREASE WITH CAUTION!
+var globals = preload("res://scripts/globals.gd")
 
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var animation_tree : AnimationTree = $Pivot.get_node("Farmer/AnimationTree2")
@@ -15,8 +9,8 @@ const WF_PROC_RATE = 0.4 # VERY DANGEROUS INCREASE WITH CAUTION!
 @onready var skeleton = $Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D
 @onready var foot_idx = skeleton.find_bone("LowerLeg.L_end")
 @onready var fireball_effect = $Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/FootAttachment/Fireball
+@onready var bloodparticles : CPUParticles3D = $Pivot.get_node("Farmer/RootNode/CharacterArmature/Skeleton3D/BloodAttachment/Particles")
 
-var crit_chance = 0.30 # 5% critchance is to weak
 var health = 100
 var direction : Vector3 = Vector3.ZERO
 var on_floor : bool = false
@@ -24,40 +18,69 @@ var rolling = false
 var moving = false
 var attacking = false
 var kicking = false
-var is_dead = false
-var attack_rate = 1
+var dead = false
+var blocking = false
 var hit_counter = 0
-var is_blocking = false
 
 var rng = RandomNumberGenerator.new()
 
-#func take_damage(damage: int, crit: bool):
-	#health = clamp(health - damage, 0, 100)
-	#if health == 0: is_dead = true
-
 func timeout(duration: float, callback: Callable):
-	get_tree().create_timer(duration).connect("timeout", callback)
+	get_tree().create_timer(duration).connect("timeout", callback) # The timer will be automatically freed after its time elapses
+
+func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, type: int):
+	velocity = direction * knockback
+	
+	bloodparticles.emitting = true
+	animation_tree["parameters/Idle/HitShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	
+	health = clamp(health - damage, 0, globals.MAX_HEALTH)
+	show_dmg(damage, crit, type)
+	
+	dead = health == 0
+		
+func show_dmg(dmg, crit, type: int):
+	var dmg_label = Label.new()
+	
+	var pos = Vector2(400,400)
+	pos.y = pos.y + rng.randf_range(-150,150)
+	pos.x = pos.x + rng.randf_range(-150,150)
+	dmg_label.set_position(pos)
+	
+	var color = Color(1,1,1) if type == globals.DAMAGE_TYPE.PHYS else Color(1,1,0)
+	dmg_label.text = str(dmg)
+	dmg_label.modulate = color
+	var scaleVector = Vector2(globals.DMG_SCALE, globals.DMG_SCALE)
+	dmg_label.scale = scaleVector * 2 if crit else scaleVector
+
+	# add to viewport
+	var viewport = $Pivot.get_node("Farmer/SubViewport")
+	viewport.add_child(dmg_label)	
+	
+	# Remove after a while
+	timeout(globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
+	
+	for i in range(1,11):
+
+		timeout(.3+i*globals.FADE_RATE, func(): dmg_label.modulate = Color(1,1,color.b,1-i*globals.FADE_RATE))
 	
 func roll():
 	rolling = true
 	
-	const duration = SPEED / 7.15
-	const speed = SPEED * 3
+	var duration = globals.SPEED / 7.15
+	var speed = globals.SPEED * 3
 	
-	velocity.x = $Pivot.transform.basis.z.x * SPEED * 2
-	velocity.z = $Pivot.transform.basis.z.z * SPEED * 2
+	velocity.x = $Pivot.transform.basis.z.x * globals.SPEED * 2
+	velocity.z = $Pivot.transform.basis.z.z * globals.SPEED * 2
 	
 	timeout(duration, func (): rolling = false)
 
-
 func attack():
-	
 	attacking = true
 	
 	const duration = 0.3
 	
 	# Attack may result in  wf proc
-	if rng.randf() <= WF_PROC_RATE:
+	if rng.randf() <= globals.WF_PROC_RATE:
 		animation_tree["parameters/Slash/QuickBlend/blend_amount"] = 1
 	
 	# Reset flags after duration
@@ -69,39 +92,37 @@ func attack():
 	
 func kick():
 	kicking = true
-	hit_counter = 0
 	
 	const duration = 0.4
 	
-	# kick
 	velocity = Vector3.ZERO
 	
 	timeout(duration / 2,
 		func ():
 			var fireball = fireball_spell.instantiate()
+			fireball.init(self)
 			get_node("/root/Main").add_child(fireball)
 			var foot_position = skeleton.to_global(skeleton.get_bone_global_pose(foot_idx).origin)
-			#var direction = -(transform.origin - foot_position).normalized()
-			#var direction = $Pivot.rotation
 			var direction = Vector3(0,0,1).rotated(Vector3(0,1,0), $Pivot.rotation.y)
 			fireball.transform.origin = foot_position
 			fireball.velocity = Vector3(direction.x, 0, direction.z) * 10
+			hit_counter = 0
 	)
 	
 	timeout(duration, func(): kicking = false)
 	
 func block():
-	is_blocking = true
+	blocking = true
 	const duration = 0.6
 	velocity = Vector3.ZERO
 	
-	timeout(duration, func(): is_blocking = false)
+	timeout(duration, func(): blocking = false)
 	
 
 func _ready():
 	animation_tree.active = true
-	animation_tree["parameters/Roll/RollScale/scale"] = SPEED / 2.7 # roll
-	animation_tree["parameters/RunSwing/RunScale/scale"] = SPEED / 3.5 # run
+	animation_tree["parameters/Roll/RollScale/scale"] = globals.SPEED / 2.7 # roll
+	animation_tree["parameters/RunSwing/RunScale/scale"] = globals.SPEED / 3.5 # run
 	
 	animation_tree["parameters/Slash/SwingScale/scale"] = 2.5 # swing
 	animation_tree["parameters/RunSwing/RunSwingScale/scale"] = 2.5 # run swing
@@ -121,7 +142,7 @@ func _process(delta):
 	animate()
 
 func animate():
-	if is_dead:
+	if dead:
 		animation_tree["parameters/conditions/dead"] = true
 		return
 	
@@ -131,7 +152,7 @@ func animate():
 	
 	
 	moving = direction and (velocity.x or velocity.z)
-	animation_tree["parameters/conditions/blocking"] = is_blocking
+	animation_tree["parameters/conditions/blocking"] = blocking
 	
 	animation_tree["parameters/conditions/idle"] = not moving
 	animation_tree["parameters/conditions/moving"] = moving
@@ -149,7 +170,7 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 		
-	if is_dead: return
+	if dead: return
 	
 	on_floor = is_on_floor()
 	
@@ -166,27 +187,33 @@ func _physics_process(delta):
 			block()
 			
 		
-	if not rolling and not kicking and not is_blocking:
+	if not rolling and not kicking and not blocking:
 		var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		
 		if direction:
-			velocity.x = direction.x * SPEED
-			velocity.z = direction.z * SPEED
+			velocity.x = direction.x * globals.SPEED
+			velocity.z = direction.z * globals.SPEED
 			
-			$Pivot.rotation.y = lerp_angle($Pivot.rotation.y, atan2(direction.x, direction.z), delta * ROTATION_SPEED)
+			$Pivot.rotation.y = lerp_angle($Pivot.rotation.y, atan2(direction.x, direction.z), delta * globals.ROTATION_SPEED)
 				
 		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			velocity.z = move_toward(velocity.z, 0, SPEED)
+			velocity.x = move_toward(velocity.x, 0, globals.SPEED)
+			velocity.z = move_toward(velocity.z, 0, globals.SPEED)
 
 	move_and_slide()
 
 
 func _on_area_3d_body_entered(body):
-	if body.has_method("take_damage") and body.is_in_group("enemies"):
+	if body.has_method("take_damage") and body != self:
 		hit_counter += 1
-		var is_crit = rng.randf() <= crit_chance
+		var is_crit = rng.randf() <= globals.CRIT_CHANCE
 		var multiplier = 2 if is_crit else 1
 		var direction = -(transform.origin - body.transform.origin).normalized()
-		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, DAMAGE_TYPE.PHYS)
+		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, globals.DAMAGE_TYPE.PHYS)
+		
+		
+func _input(event):
+	if event is InputEventMouseButton:
+		var position3D = $Camera.project_position(event.position, transform.origin.z) # verified
+		var vec = -(transform.origin - Vector3(position3D.x, position3D.y, 0)).normalized()

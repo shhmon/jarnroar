@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://cil3jgyqwjbf4" path="res://models/Pipe.glb" id="1_6gsak"]
 [ext_resource type="PackedScene" uid="uid://cstswx5v46qty" path="res://scenes/slash.tscn" id="2_0s6kv"]
-[ext_resource type="Shader" path="res://shaders/fire.tres" id="3_c3aj2"]
+[ext_resource type="Shader" uid="uid://cxba14bb5hdl5" path="res://shaders/fire.tres" id="3_c3aj2"]
 [ext_resource type="PackedScene" uid="uid://e5uk7bp6u4q2" path="res://scenes/healthbar.tscn" id="3_jpkab"]
-[ext_resource type="Texture2D" path="res://assets/Voronoi01.png" id="4_grtes"]
-[ext_resource type="Texture2D" path="res://assets/Flame01.png" id="5_3p2qw"]
+[ext_resource type="Texture2D" uid="uid://b4q468agxhqps" path="res://assets/Voronoi01.png" id="4_grtes"]
+[ext_resource type="Texture2D" uid="uid://ddfbj36kaq2ic" path="res://assets/Flame01.png" id="5_3p2qw"]
 [ext_resource type="PackedScene" uid="uid://bu5poujhxxnu8" path="res://scenes/fireball.tscn" id="7_4rjgs"]
 [ext_resource type="Shader" path="res://shaders/faja.gdshader" id="7_bnb1b"]
 

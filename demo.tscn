@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://djc2wirwhg3g"]
+[gd_scene load_steps=22 format=3 uid="uid://djc2wirwhg3g"]
 
 [ext_resource type="PackedScene" uid="uid://cuh1yaoty6gvf" path="res://scenes/camera.tscn" id="1_nnx1f"]
 [ext_resource type="ArrayMesh" uid="uid://dvhb47hsrriqq" path="res://mesh/grass6.res" id="1_t3rxi"]
@@ -12,9 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://7gjtoic7aw3l" path="res://models/Mountain.glb" id="10_ciosf"]
 [ext_resource type="PackedScene" uid="uid://cyxgwofu4ab31" path="res://models/Tree.glb" id="11_lhnap"]
 [ext_resource type="PackedScene" uid="uid://chrxpj25h7870" path="res://models/Wall Modular.glb" id="12_s6kp8"]
+[ext_resource type="Script" path="res://scripts/Multiplayer.gd" id="13_ms3vn"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_7pkd0"]
-viewport_path = NodePath("Player/Pivot/Farmer/SubViewport")
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4y6ih"]
 size = Vector3(50, 2.08165e-12, 50)
@@ -283,6 +284,9 @@ transform = Transform3D(3.2, -1.11612e-15, 1.11612e-15, 1.11612e-15, 3.2, -1.116
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Props/Quart2/Wall4"]
 shape = SubResource("BoxShape3D_qj30v")
+
+[node name="Multiplayer" type="Node3D" parent="."]
+script = ExtResource("13_ms3vn")
 
 [connection signal="body_entered" from="Player/Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe/Area3D" to="Player" method="_on_area_3d_body_entered"]
 
