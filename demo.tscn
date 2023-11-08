@@ -252,9 +252,7 @@ shape = SubResource("BoxShape3D_qj30v")
 
 [node name="Player" parent="." instance=ExtResource("3_ojgat")]
 
-[node name="Camera" parent="Player" instance=ExtResource("1_nnx1f")]
+[node name="Camera2" parent="Player" instance=ExtResource("1_nnx1f")]
 transform = Transform3D(1, 1.06845e-31, 5.81668e-32, -1.21652e-31, 0.878284, 0.47814, 0, -0.47814, 0.878284, 0.331795, 6.00241, 9.90407)
-keep_aspect = 1
 current = false
-size = 10.0
 post_processing = false

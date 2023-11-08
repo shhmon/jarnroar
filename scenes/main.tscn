@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bk5kgxi4elgel"]
+[gd_scene load_steps=12 format=3 uid="uid://bk5kgxi4elgel"]
 
 [ext_resource type="ArrayMesh" uid="uid://dvhb47hsrriqq" path="res://mesh/grass6.res" id="1_16wtu"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_q0r4y"]
 [ext_resource type="PackedScene" uid="uid://cna7myq5pqh44" path="res://models/Column.glb" id="2_c1y2n"]
+[ext_resource type="PackedScene" uid="uid://bas5tnphk8g2a" path="res://scenes/player.tscn" id="2_v4pb1"]
 [ext_resource type="PackedScene" uid="uid://dy17g3l2jsicx" path="res://models/grassmix.glb" id="3_s2pfg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3qr5b"]
@@ -38,6 +40,8 @@ adjustment_saturation = 0.01
 [sub_resource type="BoxShape3D" id="BoxShape3D_ljjn5"]
 
 [node name="main" type="Node3D"]
+script = ExtResource("1_q0r4y")
+PlayerScene = ExtResource("2_v4pb1")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
@@ -129,3 +133,18 @@ transform = Transform3D(-2.39411, 0, 1.80783, 0, 3, 0, -1.80783, 0, -2.39411, -2
 
 [node name="grassmix7" parent="Props/Grass" instance=ExtResource("3_s2pfg")]
 transform = Transform3D(2.06605, 0, 2.17519, 0, 3, 0, -2.17519, 0, 2.06605, 0.600451, 0, 0.323679)
+
+[node name="SpawnPoints" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.1, 2.08165e-12)
+
+[node name="0" type="Node3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.08165e-12, -3)
+
+[node name="1" type="Node3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.08165e-12, -3)
+
+[node name="2" type="Node3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, -7)
+
+[node name="3" type="Node3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 3)

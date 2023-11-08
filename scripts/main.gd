@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 
 # Handles world and spawning of players
 
@@ -11,12 +11,16 @@ func _ready():
 	var index = 0
 	for i in GameManager.Players:
 		var currentPlayer = PlayerScene.instantiate()
+		#
 		currentPlayer.name = str(GameManager.Players[i].id)
 		currentPlayer.set_playername(str(GameManager.Players[i].name))
-		add_child(currentPlayer)
-		for spawn in get_tree().get_nodes_in_group("PlayerSpawnPoint"):
+		
+		for spawn in $SpawnPoints.get_children():
 			if spawn.name == str(index):
-				currentPlayer.global_position = spawn.global_position
+				currentPlayer.transform.origin = spawn.transform.origin
+				
+		add_child(currentPlayer)
+				
 		PlayerObjects.append(currentPlayer)
 		playersalive += 1
 		index += 1

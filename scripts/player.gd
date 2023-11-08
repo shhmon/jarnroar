@@ -10,6 +10,7 @@ extends CharacterBody3D
 @onready var bloodparticles : CPUParticles3D = $Pivot.get_node("Farmer/RootNode/CharacterArmature/Skeleton3D/BloodAttachment/Particles")
 @onready var camera = $Camera
 
+var playername = ""
 var health = 100
 var direction : Vector3 = Vector3.ZERO
 var on_floor : bool = false
@@ -25,17 +26,10 @@ var rng = RandomNumberGenerator.new()
 
 func timeout(duration: float, callback: Callable):
 	get_tree().create_timer(duration).connect("timeout", callback) # The timer will be automatically freed after its time elapses
-
-func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, type: int):
-	velocity = direction * knockback
 	
-	bloodparticles.emitting = true
-	animation_tree["parameters/Idle/HitShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
-	
-	health = clamp(health - damage, 0, Globals.MAX_HEALTH)
-	show_dmg(damage, crit, type)
-	
-	dead = health == 0
+func set_playername(text):
+	#$PlayerName.set_text(text)
+	playername = text
 		
 func show_dmg(dmg, crit, type: int):
 	var dmg_label = Label.new()
@@ -61,7 +55,20 @@ func show_dmg(dmg, crit, type: int):
 	for i in range(1,11):
 
 		timeout(.3+i*Globals.FADE_RATE, func(): dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE))
+
+@rpc("any_peer", "call_local")
+func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, type: int):
+	velocity = direction * knockback
 	
+	bloodparticles.emitting = true
+	animation_tree["parameters/Idle/HitShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+	
+	health = clamp(health - damage, 0, Globals.MAX_HEALTH)
+	show_dmg(damage, crit, type)
+	
+	dead = health == 0
+
+@rpc("any_peer", "call_local")
 func roll():
 	rolling = true
 	
@@ -73,6 +80,7 @@ func roll():
 	
 	timeout(duration, func (): rolling = false)
 
+@rpc("any_peer", "call_local")
 func attack():
 	attacking = true
 	
@@ -88,7 +96,8 @@ func attack():
 			attacking = false
 			animation_tree["parameters/Slash/QuickBlend/blend_amount"] = 0
 	)
-	
+
+@rpc("any_peer", "call_local")
 func kick():
 	kicking = true
 	
@@ -100,7 +109,7 @@ func kick():
 		func ():
 			var fireball = fireball_spell.instantiate()
 			fireball.init(self)
-			get_node("/root/Main").add_child(fireball)
+			get_node("/root/main").add_child(fireball)
 			var foot_position = skeleton.to_global(skeleton.get_bone_global_pose(foot_idx).origin)
 			var direction = Vector3(0,0,1).rotated(Vector3(0,1,0), $Pivot.rotation.y)
 			fireball.transform.origin = foot_position
@@ -109,7 +118,8 @@ func kick():
 	)
 	
 	timeout(duration, func(): kicking = false)
-	
+
+@rpc("any_peer", "call_local")
 func block():
 	blocking = true
 	const duration = 0.6
@@ -134,6 +144,13 @@ func _ready():
 	animation_tree["parameters/Slash/StateMachine/QuickSlash2/TimeScale/scale"] = 7.5
 	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
 	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
+	
+	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+		# Set each players camera view
+		$PlayerCamera.make_current()
+		#$PlayerCamera.current = true
+		
 	
 	#if camera:
 		#camera.transform
@@ -168,42 +185,43 @@ func animate():
 	animation_tree["parameters/conditions/jump"] = rolling
 
 func _physics_process(delta):
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id(): # Only control the right character
 		# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-		
-	if dead: return
-	
-	on_floor = is_on_floor()
-	
-	#print("moving: ", moving, " / rolling: ", rolling, " / attacking:", attacking)
-	
-	if not rolling and not attacking and not kicking:
-		if Input.is_action_just_pressed("ui_accept"):
-			roll()
-		if Input.is_action_just_pressed("murder"):
-			attack()
-		if Input.is_action_just_pressed("kick") and hit_counter >= 3:
-			kick()
-		if Input.is_action_just_pressed("block"):
-			block()
+		if not is_on_floor():
+			velocity.y -= gravity * delta
 			
+		if dead: return
 		
-	if not rolling and not kicking and not blocking:
-		var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-		direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		on_floor = is_on_floor()
 		
-		if direction:
-			velocity.x = direction.x * Globals.SPEED
-			velocity.z = direction.z * Globals.SPEED
-			
-			$Pivot.rotation.y = lerp_angle($Pivot.rotation.y, atan2(direction.x, direction.z), delta * Globals.ROTATION_SPEED)
+		#print("moving: ", moving, " / rolling: ", rolling, " / attacking:", attacking)
+		
+		if not rolling and not attacking and not kicking:
+			if Input.is_action_just_pressed("ui_accept"):
+				roll.rpc()
+			if Input.is_action_just_pressed("murder"):
+				attack.rpc()
+			if Input.is_action_just_pressed("kick") and hit_counter >= 3:
+				kick.rpc()
+			if Input.is_action_just_pressed("block"):
+				block.rpc()
 				
-		else:
-			velocity.x = move_toward(velocity.x, 0, Globals.SPEED)
-			velocity.z = move_toward(velocity.z, 0, Globals.SPEED)
+			
+		if not rolling and not kicking and not blocking:
+			var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+			direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+			
+			if direction:
+				velocity.x = direction.x * Globals.SPEED
+				velocity.z = direction.z * Globals.SPEED
+				
+				$Pivot.rotation.y = lerp_angle($Pivot.rotation.y, atan2(direction.x, direction.z), delta * Globals.ROTATION_SPEED)
+					
+			else:
+				velocity.x = move_toward(velocity.x, 0, Globals.SPEED)
+				velocity.z = move_toward(velocity.z, 0, Globals.SPEED)
 
-	move_and_slide()
+		move_and_slide()
 
 
 func _on_area_3d_body_entered(body):
@@ -212,7 +230,7 @@ func _on_area_3d_body_entered(body):
 		var is_crit = rng.randf() <= Globals.CRIT_CHANCE
 		var multiplier = 2 if is_crit else 1
 		var direction = -(transform.origin - body.transform.origin).normalized()
-		body.take_damage(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, Globals.DAMAGE_TYPE.PHYS)
+		body.take_damage.rpc(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, Globals.DAMAGE_TYPE.PHYS)
 		
 		
 #func _input(event):

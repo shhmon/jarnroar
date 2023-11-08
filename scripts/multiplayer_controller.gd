@@ -54,7 +54,7 @@ func connection_failed():
 
 @rpc("any_peer")
 func SendPlayerInformation(name, id):
-	if GameManager.Players.has(id):
+	if !GameManager.Players.has(id):
 		GameManager.Players[id] = {
 			"name": name,
 			"id": id,
@@ -120,8 +120,5 @@ func _on_join_button_button_down():
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER) #Can use other compression schemes
 	multiplayer.set_multiplayer_peer(peer)
 
-func _on_start_game_button_down():
-	StartGame.rpc()
-
 func _on_start_game_button_button_down():
-	pass # Replace with function body.
+	StartGame.rpc()

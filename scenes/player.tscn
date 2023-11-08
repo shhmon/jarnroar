@@ -1,14 +1,77 @@
-[gd_scene load_steps=5 format=3 uid="uid://bas5tnphk8g2a"]
+[gd_scene load_steps=7 format=3 uid="uid://bas5tnphk8g2a"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_pc04v"]
 [ext_resource type="PackedScene" uid="uid://d0octc8jmwqme" path="res://models/farmer.tscn" id="1_qfngf"]
+[ext_resource type="PackedScene" uid="uid://cuh1yaoty6gvf" path="res://scenes/camera.tscn" id="3_pspph"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_gr7un"]
-viewport_path = NodePath("SubViewport")
+[sub_resource type="ViewportTexture" id="ViewportTexture_algei"]
+viewport_path = NodePath("Pivot/Farmer/SubViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0i0wx"]
 radius = 0.3
 height = 2.05
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pt5pq"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("Pivot:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/FootAttachment/Fireball:visible")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath("Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/FootAttachment/Fireball:scale")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
+properties/4/path = NodePath("Pivot/Farmer/AnimationTree2:active")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
+properties/5/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/conditions/blocking")
+properties/5/spawn = true
+properties/5/sync = true
+properties/5/watch = false
+properties/6/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/conditions/dead")
+properties/6/spawn = true
+properties/6/sync = true
+properties/6/watch = false
+properties/7/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/conditions/idle")
+properties/7/spawn = true
+properties/7/sync = true
+properties/7/watch = false
+properties/8/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/conditions/jump")
+properties/8/spawn = true
+properties/8/sync = true
+properties/8/watch = false
+properties/9/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/conditions/kick")
+properties/9/spawn = true
+properties/9/sync = true
+properties/9/watch = false
+properties/10/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/conditions/moving")
+properties/10/spawn = true
+properties/10/sync = true
+properties/10/watch = false
+properties/11/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/conditions/swing")
+properties/11/spawn = true
+properties/11/sync = true
+properties/11/watch = false
+properties/12/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/Idle/HitShot/active")
+properties/12/spawn = true
+properties/12/sync = true
+properties/12/watch = false
+properties/13/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/RunSwing/OneShot/active")
+properties/13/spawn = true
+properties/13/sync = true
+properties/13/watch = false
+properties/14/path = NodePath("Pivot/Farmer/AnimationTree2:parameters/Slash/QuickBlend/blend_amount")
+properties/14/spawn = true
+properties/14/sync = true
+properties/14/watch = false
 
 [node name="Player" type="CharacterBody3D"]
 floor_stop_on_slope = false
@@ -29,11 +92,19 @@ transform = Transform3D(0.889051, 3.19052e-31, 0.457808, 0.457808, -1.3933e-36, 
 transform = Transform3D(0.518087, 0.855315, 0.00460345, 0.855328, -0.51808, -0.00272256, 5.6386e-05, 0.00534803, -0.999986, 0.00120592, 0.00114739, 0.000227517)
 
 [node name="Healthbar" parent="Pivot/Farmer" index="3"]
-texture = SubResource("ViewportTexture_gr7un")
+texture = SubResource("ViewportTexture_algei")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.029, 0.07)
 shape = SubResource("CapsuleShape3D_0i0wx")
+
+[node name="PlayerCamera" parent="." instance=ExtResource("3_pspph")]
+transform = Transform3D(1, -5.15748e-16, 3.06229e-16, 3.06229e-16, 0.877983, 0.478692, -5.15748e-16, -0.478692, 0.877983, 2.08165e-12, 6.002, 9.904)
+visible = false
+post_processing = false
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_pt5pq")
 
 [connection signal="body_entered" from="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe/Area3D" to="." method="_on_area_3d_body_entered"]
 

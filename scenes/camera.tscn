@@ -17,10 +17,9 @@ shader_parameter/highlight_color = Color(1, 1, 1, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 
 [node name="Camera" type="Camera3D"]
-keep_aspect = 0
 projection = 1
 current = true
-size = 4.68493
+size = 10.0
 near = 0.001
 script = ExtResource("1_2dhkr")
 
