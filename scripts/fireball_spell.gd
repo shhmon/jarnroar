@@ -16,8 +16,7 @@ func _physics_process(delta):
 
 
 func _on_body_entered(body):
-	print("body entered")
-	if body.has_method("take_damage") and body != caster:
+	if body.has_method("take_damage") and body != caster and caster.is_authority():
 		body.take_damage.rpc(rng.randi_range(20, 25), true, Vector3.ZERO, 0, Globals.DAMAGE_TYPE.MAGIC)
 		
 	emit_signal("exploded", transform.origin)

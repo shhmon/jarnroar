@@ -25,7 +25,13 @@ var hit_counter = 0
 var rng = RandomNumberGenerator.new()
 
 func timeout(duration: float, callback: Callable):
-	get_tree().create_timer(duration).connect("timeout", callback) # The timer will be automatically freed after its time elapses
+	get_tree().create_timer(duration).connect("timeout", callback) # The timer will be automatically freed after its time elapses'
+
+func set_authority():
+	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
+	
+func is_authority():
+	return $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id()
 	
 func set_playername(text):
 	#$PlayerName.set_text(text)
@@ -145,12 +151,7 @@ func _ready():
 	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
 	animation_tree["parameters/Slash/StateMachine/QuickSlash3/TimeScale/scale"] = 7.5
 	
-	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
-		# Set each players camera view
-		$PlayerCamera.make_current()
-		#$PlayerCamera.current = true
-		
+	set_authority()
 	
 	#if camera:
 		#camera.transform
@@ -159,6 +160,9 @@ func _ready():
 func _process(delta):
 	healthbar.value = health
 	animate()
+	
+	if is_authority():
+		$PlayerCamera.make_current()
 
 func animate():
 	if dead:
@@ -169,8 +173,6 @@ func animate():
 	fireball_effect.visible = hit_counter >= 3
 	fireball_effect.scale = Vector3(charge_state,charge_state,charge_state)
 	
-	
-	moving = direction and (velocity.x or velocity.z)
 	animation_tree["parameters/conditions/blocking"] = blocking
 	
 	animation_tree["parameters/conditions/idle"] = not moving
@@ -183,9 +185,17 @@ func animate():
 		animation_tree["parameters/RunSwing/OneShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
 	
 	animation_tree["parameters/conditions/jump"] = rolling
+	
+@rpc("any_peer", "call_local")
+func set_moving(value: bool):
+	moving = value
+	
+@rpc("any_peer", "call_local")	
+func set_hit_counter(value: int):
+	hit_counter = value
 
 func _physics_process(delta):
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id(): # Only control the right character
+	if is_authority(): # Only control the right character
 		# Add the gravity.
 		if not is_on_floor():
 			velocity.y -= gravity * delta
@@ -220,13 +230,17 @@ func _physics_process(delta):
 			else:
 				velocity.x = move_toward(velocity.x, 0, Globals.SPEED)
 				velocity.z = move_toward(velocity.z, 0, Globals.SPEED)
+				
+		set_moving.rpc(direction and (velocity.x or velocity.z))
 
 		move_and_slide()
+	else:
+		print("not authority moving", moving)
 
 
 func _on_area_3d_body_entered(body):
-	if body.has_method("take_damage") and body != self:
-		hit_counter += 1
+	if body.has_method("take_damage") and body != self and is_authority():
+		set_hit_counter.rpc(hit_counter + 1)
 		var is_crit = rng.randf() <= Globals.CRIT_CHANCE
 		var multiplier = 2 if is_crit else 1
 		var direction = -(transform.origin - body.transform.origin).normalized()
