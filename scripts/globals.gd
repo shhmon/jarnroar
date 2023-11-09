@@ -6,9 +6,9 @@ const SPEED = 5 # Player run speed
 const TURN_SPEED = 2 # Player turn speed
 const ROTATION_SPEED = 20 # Player rotation speed
 
-const WF_PROC_RATE = 0.05 # VERY DANGEROUS INCREASE WITH CAUTION!
+const WF_PROC_RATE = 0.55 # VERY DANGEROUS INCREASE WITH CAUTION!
 const CRIT_CHANCE = 0.3
-const MAX_HEALTH = 100
+const MAX_HEALTH = 300
 
 # Damage numbers constants
 const DMG_SCALE = 5
