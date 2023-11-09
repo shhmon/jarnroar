@@ -296,7 +296,7 @@ func _physics_process(delta):
 
 
 func _on_area_3d_body_entered(body):
-	if body.has_method("take_damage") and not body.dead and body != self and is_authority():
+	if is_authority() and body.has_method("take_damage") and not body.dead and body != self:
 		set_hit_counter.rpc(hit_counter + 1)
 		var is_crit = rng.randf() <= Globals.CRIT_CHANCE
 		var multiplier = 2 if is_crit else 1
