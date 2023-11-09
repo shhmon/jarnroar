@@ -25,8 +25,7 @@ func _physics_process(delta):
 
 
 func _on_body_entered(body):
-	print("body entered")
-	if body.has_method("take_damage") and caster and body != caster and caster.is_authority():
+	if body.has_method("take_damage") and not body.dead and caster and body != caster and caster.is_authority():
 		var direction = -(transform.origin - body.transform.origin).normalized()
 		body.take_damage.rpc(rng.randi_range(20, 25), true, direction, 30, Globals.DAMAGE_TYPE.MAGIC)
 		handle_hit.rpc()

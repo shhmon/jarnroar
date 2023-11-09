@@ -397,7 +397,13 @@ shape = SubResource("BoxShape3D_hl63a")
 
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_vckws")
-volume_db = -8.83
+volume_db = -15.371
+autoplay = true
+
+[node name="Player" parent="." instance=ExtResource("2_v4pb1")]
+local = true
+
+[node name="Player2" parent="." instance=ExtResource("2_v4pb1")]
 
 [editable path="Props/Pillar/Column"]
 [editable path="arena/old_battle_arena"]

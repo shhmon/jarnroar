@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bas5tnphk8g2a"]
+[gd_scene load_steps=10 format=3 uid="uid://bas5tnphk8g2a"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_pc04v"]
 [ext_resource type="PackedScene" uid="uid://d0octc8jmwqme" path="res://models/farmer.tscn" id="1_qfngf"]
 [ext_resource type="PackedScene" uid="uid://cuh1yaoty6gvf" path="res://scenes/camera.tscn" id="3_pspph"]
 [ext_resource type="AudioStream" uid="uid://c20qnh3y2cik6" path="res://audio/run.wav" id="4_5dtwa"]
 [ext_resource type="AudioStream" uid="uid://dfni3h52ytftb" path="res://audio/swing.wav" id="5_rjso4"]
+[ext_resource type="AudioStream" uid="uid://b20p3bj4dirxs" path="res://audio/oof.wav" id="6_4ugx8"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_algei"]
 viewport_path = NodePath("Pivot/Farmer/SubViewport")
@@ -58,6 +59,7 @@ shape = SubResource("CapsuleShape3D_0i0wx")
 
 [node name="PlayerCamera" parent="." instance=ExtResource("3_pspph")]
 transform = Transform3D(1, -5.07133e-16, 3.10771e-16, 3.10771e-16, 0.891007, 0.453991, -5.07133e-16, -0.453991, 0.891007, 2.08165e-12, 12.2, 22.428)
+current = false
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_pt5pq")
@@ -70,6 +72,10 @@ volume_db = -8.051
 [node name="SwingAudio" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_rjso4")
 volume_db = -7.58
+
+[node name="OofAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_4ugx8")
+volume_db = -8.0
 
 [connection signal="body_entered" from="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe/Area3D" to="." method="_on_area_3d_body_entered"]
 

@@ -10,7 +10,7 @@ extends CharacterBody3D
 @onready var bloodparticles : CPUParticles3D = $Pivot.get_node("Farmer/RootNode/CharacterArmature/Skeleton3D/BloodAttachment/Particles")
 @onready var camera = $Camera
 
-var local = false
+@export var local = false
 
 var playername = ""
 var health = 100
@@ -83,8 +83,12 @@ func skate():
 	
 @rpc("any_peer", "call_local")
 func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, type: int):
+	
 	if type == Globals.DAMAGE_TYPE.PHYS and blocking:
 		return
+	
+	if !$OofAudio.playing:
+		$OofAudio.play()
 		
 	velocity = direction * knockback
 	
@@ -291,7 +295,7 @@ func _physics_process(delta):
 
 
 func _on_area_3d_body_entered(body):
-	if body.has_method("take_damage") and body != self and is_authority():
+	if body.has_method("take_damage") and not body.dead and body != self and is_authority():
 		set_hit_counter.rpc(hit_counter + 1)
 		var is_crit = rng.randf() <= Globals.CRIT_CHANCE
 		var multiplier = 2 if is_crit else 1
