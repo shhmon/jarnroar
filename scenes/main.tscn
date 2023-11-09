@@ -395,8 +395,6 @@ shape = SubResource("BoxShape3D_hl63a")
 transform = Transform3D(-0.000488667, 0, 1, 0, 1, 0, -1, 0, -0.000488629, 15.9668, 1.68975, -0.192197)
 shape = SubResource("BoxShape3D_hl63a")
 
-[node name="Player" parent="." instance=ExtResource("2_v4pb1")]
-
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_vckws")
 volume_db = -8.83

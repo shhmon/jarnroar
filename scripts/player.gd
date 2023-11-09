@@ -10,7 +10,7 @@ extends CharacterBody3D
 @onready var bloodparticles : CPUParticles3D = $Pivot.get_node("Farmer/RootNode/CharacterArmature/Skeleton3D/BloodAttachment/Particles")
 @onready var camera = $Camera
 
-var local = true
+var local = false
 
 var playername = ""
 var health = 100
