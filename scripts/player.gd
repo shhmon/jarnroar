@@ -56,11 +56,13 @@ func show_dmg(dmg, crit, type: int):
 	viewport.add_child(dmg_label)	
 	
 	# Remove after a while
-	timeout(Globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
+	#timeout(Globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
 	
-	for i in range(1,11):
-
-		timeout(.3+i*Globals.FADE_RATE, func(): dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE))
+	#for i in range(1,11):
+	#	timeout(.3+i*Globals.FADE_RATE,
+	#		func():
+	#			dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE)
+	#	)
 
 @rpc("any_peer", "call_local")
 func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, type: int):
@@ -200,7 +202,8 @@ func _physics_process(delta):
 		if not is_on_floor():
 			velocity.y -= gravity * delta
 			
-		if dead: return
+		if dead:
+			return
 		
 		on_floor = is_on_floor()
 		

@@ -30,5 +30,5 @@ func _process(delta):
 	for player in PlayerObjects:
 		if player.dead:
 			playersalive -= 1
-			#PlayerObjects.erase(player)
-			#player.queue_free() # Remove player
+			PlayerObjects.erase(player)
+			player.queue_free() # Remove player

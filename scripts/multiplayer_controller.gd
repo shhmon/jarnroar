@@ -9,28 +9,31 @@ var peer
 var scene = load("res://scenes/main.tscn")
 var scene_object = null
 
-# Called when the node enters the scene tree for the first time.
+func _on_timer_timeout():
+	$WinnerButton.hide()
+
+# Called when the node enters the scene tvree for the first time.
 func _ready():
 	multiplayer.peer_connected.connect(peer_connected)
 	multiplayer.peer_disconnected.connect(peer_disconnected)
 	multiplayer.connected_to_server.connect(connected_to_server)
 	multiplayer.connection_failed.connect(connection_failed)
+	$WinnerButton.hide()
+	$WinnerButton/Timer.connect("timeout", _on_timer_timeout) 
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
-	#if scene_object != null:
-		#if scene_object.playersalive <= 1:
+	if scene_object != null:
+		if scene_object.playersalive <= 1:
 			
-			#var winner
+			var winner
 			
-			#for i in Players:
-			#	if Players[i].health > 0:
-			#		winner = Players[i]
+			for i in GameManager.Players:
+				if GameManager.Players[i].health != 0:
+					winner = GameManager.Players[i]
 					
-			#print(winner)
-			#$WinnerButton.text = "WINNER\n" + str(winner)
-			#RestartGame.rpc()
+			$WinnerButton.text = "WINNER\n" + str(winner.name)
+			RestartGame.rpc()
 
 # This gets called on the server and the clients 
 func peer_connected(id):
@@ -94,8 +97,8 @@ func RestartGame():
 	print("Called restartgame")
 	if scene_object != null:
 		scene_object.queue_free()
-	#$WinnerButton.show()
-	#$WinnerButton/Timer.start(3)
+	$WinnerButton.show()
+	$WinnerButton/Timer.start(3)
 	self.show()
 
 func _on_host_button_button_down():

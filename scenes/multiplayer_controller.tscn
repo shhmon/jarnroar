@@ -111,6 +111,16 @@ offset_top = 30.0
 offset_right = 328.0
 offset_bottom = 241.0
 
+[node name="WinnerButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -4.0
+offset_right = 959.0
+offset_bottom = 540.0
+
+[node name="Timer" type="Timer" parent="WinnerButton"]
+wait_time = 3.0
+
 [connection signal="button_down" from="JoinButton" to="." method="_on_join_button_button_down"]
 [connection signal="button_down" from="HostButton" to="." method="_on_host_button_button_down"]
 [connection signal="button_down" from="StartGameButton" to="." method="_on_start_game_button_button_down"]
