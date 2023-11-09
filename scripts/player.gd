@@ -48,8 +48,10 @@ func show_dmg(dmg, crit, type: int):
 	pos.x = pos.x + rng.randf_range(-150,150)
 	dmg_label.set_position(pos)
 	
-	var color = Color(1,1,1) if type == Globals.DAMAGE_TYPE.PHYS else Color(1,1,0)
-	dmg_label.text = str(dmg)
+	var color = Color(0,0,0)
+	if not is_authority():
+		color = Color(1,1,1) if type == Globals.DAMAGE_TYPE.PHYS else Color(1,1,0)
+	dmg_label.text = ('-' if is_authority() else '') + str(dmg)
 	dmg_label.modulate = color
 	var scaleVector = Vector2(Globals.DMG_SCALE, Globals.DMG_SCALE)
 	dmg_label.scale = scaleVector * 2 if crit else scaleVector
@@ -67,7 +69,8 @@ func show_dmg(dmg, crit, type: int):
 		timeout(.3+i*Globals.FADE_RATE,
 			func():
 				if wr.get_ref():
-					dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE)
+					color.a = 1-i*Globals.FADE_RATE
+					dmg_label.modulate = color
 		)
 
 @rpc("any_peer", "call_local")
