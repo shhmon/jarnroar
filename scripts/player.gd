@@ -146,7 +146,7 @@ func kick():
 		func ():
 			var fireball = fireball_spell.instantiate()
 			fireball.init(self)
-			get_node("/root/main").add_child(fireball)
+			get_tree().root.add_child(fireball)
 			var foot_position = skeleton.to_global(skeleton.get_bone_global_pose(foot_idx).origin)
 			var direction = Vector3(0,0,1).rotated(Vector3(0,1,0), $Pivot.rotation.y)
 			fireball.transform.origin = foot_position
