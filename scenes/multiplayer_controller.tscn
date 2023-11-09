@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bf84bp4uegbfp"]
+[gd_scene load_steps=5 format=3 uid="uid://bf84bp4uegbfp"]
 
 [ext_resource type="Script" path="res://scripts/multiplayer_controller.gd" id="1_hsel5"]
+[ext_resource type="Texture2D" uid="uid://nwv2nonhs60x" path="res://assets/New Project.png" id="2_kkkfi"]
 [ext_resource type="Script" path="res://scripts/my_ip_addr.gd" id="2_xgt24"]
+[ext_resource type="AudioStream" uid="uid://dh6bsetv0tt27" path="res://audio/foorest.wav" id="3_3g2d6"]
 
 [node name="MultiplayerController" type="Control"]
 layout_mode = 3
@@ -11,6 +13,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hsel5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(475.5, 272.5)
+scale = Vector2(0.757031, 0.770833)
+texture = ExtResource("2_kkkfi")
 
 [node name="UsernameLabel" type="Label" parent="."]
 layout_mode = 0
@@ -112,6 +119,7 @@ offset_right = 328.0
 offset_bottom = 241.0
 
 [node name="WinnerButton" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = -2.0
 offset_top = -4.0
@@ -120,6 +128,11 @@ offset_bottom = 540.0
 
 [node name="Timer" type="Timer" parent="WinnerButton"]
 wait_time = 3.0
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_3g2d6")
+volume_db = -8.12
+autoplay = true
 
 [connection signal="button_down" from="JoinButton" to="." method="_on_join_button_button_down"]
 [connection signal="button_down" from="HostButton" to="." method="_on_host_button_button_down"]

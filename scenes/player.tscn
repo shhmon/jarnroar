@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bas5tnphk8g2a"]
+[gd_scene load_steps=11 format=3 uid="uid://bas5tnphk8g2a"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_pc04v"]
 [ext_resource type="PackedScene" uid="uid://d0octc8jmwqme" path="res://models/farmer.tscn" id="1_qfngf"]
@@ -7,8 +7,11 @@
 [ext_resource type="AudioStream" uid="uid://dfni3h52ytftb" path="res://audio/swing.wav" id="5_rjso4"]
 [ext_resource type="AudioStream" uid="uid://b20p3bj4dirxs" path="res://audio/oof.wav" id="6_4ugx8"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_algei"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_fn10w"]
 viewport_path = NodePath("Pivot/Farmer/SubViewport")
+
+[sub_resource type="LabelSettings" id="LabelSettings_jbmh0"]
+font_size = 100
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0i0wx"]
 radius = 0.3
@@ -51,7 +54,26 @@ collision_layer = 2
 collision_mask = 3
 
 [node name="Healthbar" parent="Pivot/Farmer" index="3"]
-texture = SubResource("ViewportTexture_algei")
+texture = SubResource("ViewportTexture_fn10w")
+
+[node name="SubViewport" parent="Pivot/Farmer" index="4"]
+size = Vector2i(1000, 500)
+
+[node name="Healthbar" parent="Pivot/Farmer/SubViewport" index="0"]
+offset_left = -165.5
+offset_top = -13.0
+offset_right = 165.5
+offset_bottom = 13.0
+
+[node name="PlayerName" type="Label" parent="Pivot/Farmer/SubViewport" index="1"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -101.0
+offset_right = 101.0
+offset_bottom = 72.0
+grow_horizontal = 2
+label_settings = SubResource("LabelSettings_jbmh0")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.029, 0.07)

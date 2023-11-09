@@ -39,6 +39,7 @@ func is_authority():
 func set_playername(text):
 	#$PlayerName.set_text(text)
 	playername = text
+	$Pivot/Farmer/SubViewport/PlayerName.text = text
 		
 func show_dmg(dmg, crit, type: int):
 	var dmg_label = Label.new()

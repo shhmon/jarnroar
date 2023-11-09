@@ -90,6 +90,7 @@ func StartGame():
 		
 	scene_object = scene.instantiate()
 	get_tree().root.add_child(scene_object)
+	$Soundtrack.stop()
 	self.hide()
 
 @rpc("any_peer", "call_local")
@@ -100,6 +101,7 @@ func RestartGame():
 	$WinnerButton.show()
 	$WinnerButton/Timer.start(3)
 	self.show()
+	$Soundtrack.play()
 
 func _on_host_button_button_down():
 	peer = ENetMultiplayerPeer.new()

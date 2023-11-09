@@ -7,7 +7,7 @@
 
 [node name="main" parent="." instance=ExtResource("1_p53l4")]
 
-[node name="Player" parent="main" instance=ExtResource("2_pse2k")]
-local = true
-
 [node name="Player2" parent="main" instance=ExtResource("2_pse2k")]
+
+[node name="Player3" parent="main" instance=ExtResource("2_pse2k")]
+local = true
