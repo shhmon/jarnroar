@@ -34,6 +34,7 @@ properties/4/sync = true
 properties/4/watch = false
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
 floor_stop_on_slope = false
 script = ExtResource("1_pc04v")
 metadata/is_player = true
@@ -44,6 +45,10 @@ metadata/is_player = true
 
 [node name="PipeAttachment" parent="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D" index="4"]
 transform = Transform3D(-0.335219, -0.00437128, -0.94213, 0.888218, -0.334916, -0.314483, -0.31416, -0.942238, 0.116153, -0.00210448, -0.00141017, 0.0102429)
+
+[node name="Area3D" parent="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D/PipeAttachment/Pipe" index="3"]
+collision_layer = 2
+collision_mask = 3
 
 [node name="BloodAttachment" parent="Pivot/Farmer/RootNode/CharacterArmature/Skeleton3D" index="5"]
 transform = Transform3D(0.889051, 3.19052e-31, 0.457808, 0.457808, -1.3933e-36, -0.889051, -2.83653e-31, 1, -1.46066e-31, 4.53208e-06, -0.00026683, 0.00828953)

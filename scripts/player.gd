@@ -21,6 +21,7 @@ var kicking = false
 var dead = false
 var blocking = false
 var hit_counter = 0
+var skating = false
 
 var rng = RandomNumberGenerator.new()
 
@@ -56,14 +57,22 @@ func show_dmg(dmg, crit, type: int):
 	viewport.add_child(dmg_label)	
 	
 	# Remove after a while
-	#timeout(Globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
+	timeout(Globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
 	
-	#for i in range(1,11):
-	#	timeout(.3+i*Globals.FADE_RATE,
-	#		func():
-	#			dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE)
-	#	)
+	for i in range(1,11):
+		timeout(.3+i*Globals.FADE_RATE,
+			func():
+				dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE)
+		)
 
+@rpc("any_peer", "call_local")
+func skate():
+	const duration = 0.2
+	
+	skating = true
+	
+	timeout(duration, func (): skating = false)
+	
 @rpc("any_peer", "call_local")
 func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, type: int):
 	velocity = direction * knockback
@@ -74,7 +83,12 @@ func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, ty
 	health = clamp(health - damage, 0, Globals.MAX_HEALTH)
 	show_dmg(damage, crit, type)
 	
-	dead = health == 0
+	if damage > 0:
+		skate.rpc()
+	
+	#dead = health == 0
+	if health == 0:
+		health = Globals.MAX_HEALTH
 
 @rpc("any_peer", "call_local")
 func roll():
@@ -122,6 +136,8 @@ func kick():
 			var direction = Vector3(0,0,1).rotated(Vector3(0,1,0), $Pivot.rotation.y)
 			fireball.transform.origin = foot_position
 			fireball.velocity = Vector3(direction.x, 0, direction.z) * 10
+			velocity = -direction * 15
+			skate.rpc()
 			hit_counter = 0
 	)
 	
@@ -225,20 +241,29 @@ func _physics_process(delta):
 			direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 			
 			if direction:
-				velocity.x = direction.x * Globals.SPEED
-				velocity.z = direction.z * Globals.SPEED
+				
+				if skating:
+					var x = velocity.x + direction.x * Globals.SPEED
+					var z = velocity.z + direction.z * Globals.SPEED
+					
+					x = clamp(x, -Globals.SPEED, Globals.SPEED)
+					z = clamp(z, -Globals.SPEED, Globals.SPEED)
+					
+					velocity.x = move_toward(velocity.x, x, Globals.SKATE_STOP_RATE)
+					velocity.z = move_toward(velocity.z, z, Globals.SKATE_STOP_RATE)
+				else:
+					velocity.x = direction.x * Globals.SPEED
+					velocity.z = direction.z * Globals.SPEED
 				
 				$Pivot.rotation.y = lerp_angle($Pivot.rotation.y, atan2(direction.x, direction.z), delta * Globals.ROTATION_SPEED)
 					
 			else:
-				velocity.x = move_toward(velocity.x, 0, Globals.SPEED)
-				velocity.z = move_toward(velocity.z, 0, Globals.SPEED)
+				velocity.x = move_toward(velocity.x, 0, Globals.SKATE_STOP_RATE if skating else Globals.SPEED)
+				velocity.z = move_toward(velocity.z, 0, Globals.SKATE_STOP_RATE if skating else Globals.SPEED)
 				
 		set_moving.rpc(direction and (velocity.x or velocity.z))
 
 		move_and_slide()
-	else:
-		print("not authority moving", moving)
 
 
 func _on_area_3d_body_entered(body):
@@ -247,7 +272,7 @@ func _on_area_3d_body_entered(body):
 		var is_crit = rng.randf() <= Globals.CRIT_CHANCE
 		var multiplier = 2 if is_crit else 1
 		var direction = -(transform.origin - body.transform.origin).normalized()
-		body.take_damage.rpc(rng.randi_range(10, 15) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 30, Globals.DAMAGE_TYPE.PHYS)
+		body.take_damage.rpc(rng.randi_range(7, 10) * multiplier, is_crit, Vector3(direction.x, 0, direction.z), 15, Globals.DAMAGE_TYPE.PHYS)
 		
 		
 #func _input(event):

@@ -19,8 +19,7 @@ shader_parameter/shadow_color = Color(0, 0, 0, 1)
 [node name="Camera" type="Camera3D"]
 projection = 1
 current = true
-size = 10.0
-near = 0.001
+size = 11.0
 script = ExtResource("1_2dhkr")
 
 [node name="Postprocess" type="MeshInstance3D" parent="."]

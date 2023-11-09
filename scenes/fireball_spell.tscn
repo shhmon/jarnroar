@@ -6,6 +6,8 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_od1wb"]
 
 [node name="FireballSpell" type="Area3D"]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_0tlql")
 
 [node name="Fireball" parent="." instance=ExtResource("1_1avwd")]
