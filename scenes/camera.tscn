@@ -1,20 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://cuh1yaoty6gvf"]
 
 [ext_resource type="Script" path="res://scripts/camera.gd" id="1_2dhkr"]
-[ext_resource type="Shader" path="res://shaders/pixelart_stylizer.gdshader" id="2_t571y"]
+[ext_resource type="Shader" path="res://shaders/pp.gdshader" id="2_jolvk"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_57txa"]
 size = Vector2(40, 25)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hpojt"]
 render_priority = 0
-shader = ExtResource("2_t571y")
-shader_parameter/shadows_enabled = true
-shader_parameter/highlights_enabled = true
-shader_parameter/shadow_strength = 0.4
-shader_parameter/highlight_strength = 0.1
-shader_parameter/highlight_color = Color(1, 1, 1, 1)
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader = ExtResource("2_jolvk")
 
 [node name="Camera" type="Camera3D"]
 projection = 1
@@ -25,5 +19,12 @@ script = ExtResource("1_2dhkr")
 
 [node name="Postprocess" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.08165e-12, 2.08165e-12, -1)
+visible = false
+mesh = SubResource("PlaneMesh_57txa")
+surface_material_override/0 = SubResource("ShaderMaterial_hpojt")
+
+[node name="Postprocess2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.08165e-12, 2.08165e-12, -1)
+visible = false
 mesh = SubResource("PlaneMesh_57txa")
 surface_material_override/0 = SubResource("ShaderMaterial_hpojt")

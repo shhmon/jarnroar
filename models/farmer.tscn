@@ -11,6 +11,7 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72dwo"]
 resource_name = "Brown2"
+shading_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 vertex_color_use_as_albedo = true
@@ -20,6 +21,7 @@ roughness = 0.415087
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8why"]
 resource_name = "Brown"
+shading_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 vertex_color_use_as_albedo = true
@@ -252,12 +254,16 @@ bind/61/pose = Transform3D(1, -6.79483e-05, 3.64635e-07, -1.27496e-09, 0.0053475
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ci3l8"]
 resource_name = "LightBlue"
+shading_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.17736, 0.220241, 0.248828, 1)
-metallic = 0.4
-roughness = 0.415087
+metallic = 0.53
+roughness = 0.44
+emission = Color(0.219608, 0.219608, 0.219608, 1)
+emission_energy_multiplier = 4.02
+grow_amount = 0.01
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_rvytl"]
 resource_name = "Root Scene_Farmer_Pants"
@@ -280,6 +286,7 @@ blend_shape_mode = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ggmuq"]
 resource_name = "Skin"
+shading_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 vertex_color_use_as_albedo = true
@@ -289,6 +296,7 @@ roughness = 0.415087
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_omylq"]
 resource_name = "Beige"
+shading_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 vertex_color_use_as_albedo = true
@@ -358,6 +366,7 @@ blend_shape_mode = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aue6q"]
 resource_name = "Eyebrows"
+shading_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 vertex_color_use_as_albedo = true
@@ -376,6 +385,7 @@ roughness = 0.415087
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34j72"]
 resource_name = "Eye"
+shading_mode = 2
 diffuse_mode = 3
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.171274, 0.125934, 0.0935188, 1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bk5kgxi4elgel"]
+[gd_scene load_steps=20 format=3 uid="uid://bk5kgxi4elgel"]
 
 [ext_resource type="ArrayMesh" uid="uid://dvhb47hsrriqq" path="res://mesh/grass6.res" id="1_16wtu"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_q0r4y"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dk8mi2p232smp" path="res://models/bushes/Lady palm tree.glb" id="7_0xaw7"]
 [ext_resource type="PackedScene" uid="uid://cmmuvqm2ef80" path="res://models/bushes/Blue Agave.glb" id="8_jlfa0"]
 [ext_resource type="PackedScene" uid="uid://batdqmdoaoko1" path="res://models/bushes/Bromeliad.glb" id="9_8stgh"]
+[ext_resource type="AudioStream" uid="uid://dh6bsetv0tt27" path="res://audio/foorest.wav" id="12_vckws"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3qr5b"]
 size = Vector3(50, 2.08165e-12, 50)
@@ -359,6 +360,9 @@ visible = false
 [node name="pPlane4" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="117"]
 transform = Transform3D(1, -1.18256e-24, 5.3258e-09, -5.3258e-09, 2.22045e-16, -1, 0, 1, 2.22045e-16, 0, 0, 0)
 
+[node name="pCube269" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="118"]
+visible = false
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="arena"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.68975, -15.1591)
 shape = SubResource("BoxShape3D_hl63a")
@@ -391,4 +395,11 @@ shape = SubResource("BoxShape3D_hl63a")
 transform = Transform3D(-0.000488667, 0, 1, 0, 1, 0, -1, 0, -0.000488629, 15.9668, 1.68975, -0.192197)
 shape = SubResource("BoxShape3D_hl63a")
 
+[node name="Player" parent="." instance=ExtResource("2_v4pb1")]
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_vckws")
+volume_db = -8.83
+
+[editable path="Props/Pillar/Column"]
 [editable path="arena/old_battle_arena"]

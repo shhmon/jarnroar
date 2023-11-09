@@ -10,6 +10,8 @@ extends CharacterBody3D
 @onready var bloodparticles : CPUParticles3D = $Pivot.get_node("Farmer/RootNode/CharacterArmature/Skeleton3D/BloodAttachment/Particles")
 @onready var camera = $Camera
 
+var local = true
+
 var playername = ""
 var health = 100
 var direction : Vector3 = Vector3.ZERO
@@ -32,7 +34,7 @@ func set_authority():
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
 	
 func is_authority():
-	return $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id()
+	return local or $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id()
 	
 func set_playername(text):
 	#$PlayerName.set_text(text)
@@ -180,10 +182,23 @@ func _ready():
 	#if camera:
 		#camera.transform
 	
+func handle_audio():
+	if attacking:
+		if !$SwingAudio.playing:
+			$SwingAudio.play()
+	else:
+		$SwingAudio.stop()
+	
+	if moving and not rolling:
+		if !$RunAudio.playing:
+			$RunAudio.play()
+	else:
+		$RunAudio.stop()
 
 func _process(delta):
 	healthbar.value = health
 	animate()
+	handle_audio()
 	
 	if is_authority():
 		$PlayerCamera.make_current()

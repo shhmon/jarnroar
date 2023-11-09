@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bix2fpgbnoc3t"]
+[gd_scene load_steps=5 format=3 uid="uid://bix2fpgbnoc3t"]
 
 [ext_resource type="Script" path="res://scripts/fireball_spell.gd" id="1_0tlql"]
 [ext_resource type="PackedScene" uid="uid://bu5poujhxxnu8" path="res://scenes/fireball.tscn" id="1_1avwd"]
+[ext_resource type="AudioStream" uid="uid://ch43bwb8l3c6x" path="res://audio/Fireball.wav" id="3_ccm1y"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_od1wb"]
 
@@ -15,5 +16,10 @@ transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_od1wb")
+
+[node name="FireballAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_ccm1y")
+volume_db = -9.057
+autoplay = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
