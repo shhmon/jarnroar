@@ -1,8 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://djc2wirwhg3g"]
+[gd_scene load_steps=16 format=3 uid="uid://djc2wirwhg3g"]
 
-[ext_resource type="PackedScene" uid="uid://cuh1yaoty6gvf" path="res://scenes/camera.tscn" id="1_nnx1f"]
 [ext_resource type="ArrayMesh" uid="uid://dvhb47hsrriqq" path="res://mesh/grass6.res" id="1_t3rxi"]
-[ext_resource type="PackedScene" uid="uid://bas5tnphk8g2a" path="res://scenes/player.tscn" id="3_ojgat"]
 [ext_resource type="PackedScene" uid="uid://cna7myq5pqh44" path="res://models/Column.glb" id="5_3vyvn"]
 [ext_resource type="PackedScene" uid="uid://dy17g3l2jsicx" path="res://models/grassmix.glb" id="8_okucm"]
 [ext_resource type="PackedScene" uid="uid://bvafpt0146inx" path="res://models/Mountains.glb" id="8_tfhuv"]
@@ -249,9 +247,3 @@ transform = Transform3D(3.2, -1.11612e-15, 1.11612e-15, 1.11612e-15, 3.2, -1.116
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Props/Quart2/Wall4"]
 shape = SubResource("BoxShape3D_qj30v")
-
-[node name="Player" parent="." instance=ExtResource("3_ojgat")]
-
-[node name="Camera2" parent="Player" instance=ExtResource("1_nnx1f")]
-transform = Transform3D(1, 1.06845e-31, 5.81668e-32, -1.21652e-31, 0.878284, 0.47814, 0, -0.47814, 0.878284, 0.331795, 6.00241, 9.90407)
-current = false

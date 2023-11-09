@@ -56,9 +56,6 @@ collision_mask = 3
 [node name="Healthbar" parent="Pivot/Farmer" index="3"]
 texture = SubResource("ViewportTexture_fn10w")
 
-[node name="SubViewport" parent="Pivot/Farmer" index="4"]
-size = Vector2i(1000, 500)
-
 [node name="Healthbar" parent="Pivot/Farmer/SubViewport" index="0"]
 offset_left = -165.5
 offset_top = -13.0
