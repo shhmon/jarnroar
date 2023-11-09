@@ -43,7 +43,7 @@ offset_left = 92.0
 offset_top = -3.0
 offset_right = 279.0
 offset_bottom = 28.0
-text = "127.0.0.1"
+text = "192.168.18.1"
 caret_blink = true
 
 [node name="JoinButton" type="Button" parent="."]
