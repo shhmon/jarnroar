@@ -218,6 +218,147 @@ transform = Transform3D(4.62514, 0, 1.08192, 0, 4.75, 0, -1.08192, 0, 4.62514, -
 [node name="old_battle_arena" parent="arena" instance=ExtResource("6_nckme")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.19821, 0)
 
+[node name="pCube209" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="31"]
+visible = false
+
+[node name="pCube210" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="32"]
+visible = false
+
+[node name="pCube211" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="33"]
+visible = false
+
+[node name="polySurface36" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="34"]
+visible = false
+
+[node name="pCube212" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="35"]
+visible = false
+
+[node name="pCube213" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="36"]
+visible = false
+
+[node name="pCube214" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="37"]
+visible = false
+
+[node name="polySurface37" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="38"]
+visible = false
+
+[node name="pCube215" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="39"]
+visible = false
+
+[node name="pCube216" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="40"]
+visible = false
+
+[node name="pCube217" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="41"]
+visible = false
+
+[node name="polySurface38" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="42"]
+visible = false
+
+[node name="pCube218" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="43"]
+visible = false
+
+[node name="pCube219" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="44"]
+visible = false
+
+[node name="pCube220" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="45"]
+visible = false
+
+[node name="polySurface39" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="46"]
+visible = false
+
+[node name="pCube221" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="47"]
+visible = false
+
+[node name="pCube222" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="48"]
+visible = false
+
+[node name="pCube223" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="49"]
+visible = false
+
+[node name="polySurface40" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="50"]
+visible = false
+
+[node name="pCube224" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="51"]
+visible = false
+
+[node name="pCube225" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="52"]
+visible = false
+
+[node name="pCube226" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="53"]
+visible = false
+
+[node name="polySurface41" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="54"]
+visible = false
+
+[node name="pCube227" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="55"]
+visible = false
+
+[node name="pCube228" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="56"]
+visible = false
+
+[node name="pCube229" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="57"]
+visible = false
+
+[node name="polySurface42" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="58"]
+visible = false
+
+[node name="pCube230" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="59"]
+visible = false
+
+[node name="pCube231" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="60"]
+visible = false
+
+[node name="pCube232" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="61"]
+visible = false
+
+[node name="polySurface43" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="62"]
+visible = false
+
+[node name="pCube233" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="63"]
+visible = false
+
+[node name="pCube234" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="64"]
+visible = false
+
+[node name="pCube235" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="65"]
+visible = false
+
+[node name="polySurface44" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="66"]
+visible = false
+
+[node name="pCube236" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="67"]
+visible = false
+
+[node name="pCube237" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="68"]
+visible = false
+
+[node name="pCube238" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="69"]
+visible = false
+
+[node name="polySurface45" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="70"]
+visible = false
+
+[node name="pCube239" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="71"]
+visible = false
+
+[node name="pCylinder12" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="109"]
+visible = false
+
+[node name="pCylinder13" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="110"]
+visible = false
+
+[node name="pCylinder14" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="111"]
+visible = false
+
+[node name="pCylinder15" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="112"]
+visible = false
+
+[node name="pCylinder16" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="113"]
+visible = false
+
+[node name="pPlane4" parent="arena/old_battle_arena/Sketchfab_model/0ea75823bea343e1800bd5f214bc7f0a_fbx/RootNode" index="117"]
+transform = Transform3D(1, -1.18256e-24, 5.3258e-09, -5.3258e-09, 2.22045e-16, -1, 0, 1, 2.22045e-16, 0, 0, 0)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="arena"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.68975, -15.1591)
 shape = SubResource("BoxShape3D_hl63a")
@@ -249,3 +390,5 @@ shape = SubResource("BoxShape3D_hl63a")
 [node name="CollisionShape3D7" type="CollisionShape3D" parent="arena"]
 transform = Transform3D(-0.000488667, 0, 1, 0, 1, 0, -1, 0, -0.000488629, 15.9668, 1.68975, -0.192197)
 shape = SubResource("BoxShape3D_hl63a")
+
+[editable path="arena/old_battle_arena"]

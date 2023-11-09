@@ -54,15 +54,18 @@ func show_dmg(dmg, crit, type: int):
 
 	# add to viewport
 	var viewport = $Pivot.get_node("Farmer/SubViewport")
-	viewport.add_child(dmg_label)	
+	viewport.add_child(dmg_label)
+	
+	var wr = weakref(dmg_label)
 	
 	# Remove after a while
-	timeout(Globals.FADE_DURATION, func(): viewport.remove_child(dmg_label))
+	timeout(Globals.FADE_DURATION, func(): if wr.get_ref(): dmg_label.queue_free())
 	
 	for i in range(1,11):
 		timeout(.3+i*Globals.FADE_RATE,
 			func():
-				dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE)
+				if wr.get_ref():
+					dmg_label.modulate = Color(1,1,color.b,1-i*Globals.FADE_RATE)
 		)
 
 @rpc("any_peer", "call_local")
@@ -75,6 +78,9 @@ func skate():
 	
 @rpc("any_peer", "call_local")
 func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, type: int):
+	if type == Globals.DAMAGE_TYPE.PHYS and blocking:
+		return
+		
 	velocity = direction * knockback
 	
 	bloodparticles.emitting = true
@@ -86,9 +92,9 @@ func take_damage(damage: int, crit: bool, direction: Vector3, knockback: int, ty
 	if damage > 0:
 		skate.rpc()
 	
-	#dead = health == 0
-	if health == 0:
-		health = Globals.MAX_HEALTH
+	dead = health == 0
+	#if health == 0:
+	#	health = Globals.MAX_HEALTH
 
 @rpc("any_peer", "call_local")
 func roll():

@@ -64,7 +64,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.029, 0.07)
 shape = SubResource("CapsuleShape3D_0i0wx")
 
 [node name="PlayerCamera" parent="." instance=ExtResource("3_pspph")]
-transform = Transform3D(1, -5.15748e-16, 3.06229e-16, 3.06229e-16, 0.877983, 0.478692, -5.15748e-16, -0.478692, 0.877983, 2.08165e-12, 6.002, 9.904)
+transform = Transform3D(1, -5.15748e-16, 3.06229e-16, 3.06229e-16, 0.877983, 0.478692, -5.15748e-16, -0.478692, 0.877983, 2.08165e-12, 12.6, 20)
 visible = false
 post_processing = false
 
